@@ -1,4 +1,4 @@
-# dreamtecher
+# relationship-server
 
 a Wechat mini-programs for dreamtecher
 
