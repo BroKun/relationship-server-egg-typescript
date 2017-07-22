@@ -20,6 +20,7 @@
       "name": "Attach Agent",
       "type": "node",
       "request": "attach",
+      "protocol": "inspector",
       "port": 5856
     },
     {
@@ -34,7 +35,7 @@
   "compounds": [
     {
       "name": "Debug Egg",
-      "configurations": ["Launch Egg", "Attach Agent", "Attach Worker"]
+      "configurations": ["Attach Agent", "Attach Worker"]
     }
   ]
 }
