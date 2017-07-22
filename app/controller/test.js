@@ -17,7 +17,7 @@ module.exports = app => {
         tab: { type: 'enum', values: [ 'test', 'test1' ], required: false },
         limit: { format: /\d+/, required: false },
       };
-      ctx.validate(queryRule, ctx.query);
+      this.validator.validate(queryRule, ctx.query);
 
       ctx.body = await ctx.service.test.list({
         page: ctx.query.page,
