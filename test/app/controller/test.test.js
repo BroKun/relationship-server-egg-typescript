@@ -23,7 +23,7 @@ describe('test/app/controller/home.test.js', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .expect(res => {
-        assert(res.body.page === 1);
+        assert(res.body.page === '1');
       });
   });
   it('test show', () => {
@@ -31,8 +31,7 @@ describe('test/app/controller/home.test.js', () => {
       .get('/api/v1/test/123')
       .expect(200)
       .expect(res => {
-        console.log(res);
-        // assert(res.body.id.startsWith('show:'));
+        assert(res.text.startsWith('show:'));
       });
   });
   it('test create', () => {

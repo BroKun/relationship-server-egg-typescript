@@ -12,12 +12,11 @@ module.exports = app => {
 
     async index() {
       const { ctx } = this;
-      const queryRule = {
-        page: { format: /\d+/, required: false },
+      this.app.validator.validate({
+        page: { type: 'string', format: /\d+/, required: false },
         tab: { type: 'enum', values: [ 'test', 'test1' ], required: false },
-        limit: { format: /\d+/, required: false },
-      };
-      this.app.validator.validate(queryRule, ctx.query);
+        limit: { type: 'string', format: /\d+/, required: false },
+      }, ctx.query);
 
       ctx.body = await ctx.service.test.list({
         page: ctx.query.page,

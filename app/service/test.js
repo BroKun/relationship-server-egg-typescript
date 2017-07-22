@@ -15,7 +15,7 @@ module.exports = app => {
       return `update:${params}`;
     }
     async list(params) {
-      return `list:${params}`;
+      return params;
     }
   }
 
