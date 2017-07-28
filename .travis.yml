@@ -19,5 +19,5 @@ after_script:
 - cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls
 - scp relationship-server.tar.gz brokun@101.200.36.181:~/
 - ssh brokun@101.200.36.181 'rm -rf relationship-server'
-- ssh brokun@101.200.36.181 'mkdir -p relationship-server && tar -xzvf relationship-server.tar.gz -C blogSource'
+- ssh brokun@101.200.36.181 'mkdir -p relationship-server && tar -xzvf relationship-server.tar.gz -C relationship-server'
 - ssh brokun@101.200.36.181 '. ./relationship-server.sh'
