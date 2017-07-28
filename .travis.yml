@@ -15,7 +15,7 @@ script:
 - npm run ci
 after_script:
 - npminstall codecov && codecov
-- scp blogSource.tar.gz brokun@101.200.36.181:~/
+- scp relationship-server.tar.gz brokun@101.200.36.181:~/
 - ssh brokun@101.200.36.181 'rm -rf relationship-server'
-- ssh brokun@101.200.36.181 'mkdir -p relationship-server && tar -xzvf blogSource.tar.gz -C blogSource'
+- ssh brokun@101.200.36.181 'mkdir -p relationship-server && tar -xzvf relationship-server.tar.gz -C blogSource'
 - ssh brokun@101.200.36.181 '. ./relationship-server.sh'
