@@ -33,7 +33,7 @@
     "debug": "egg-bin debug"
   },
   "ci": {
-    "version": "6, 8"
+    "version": "7.10.1"
   },
   "repository": {
     "type": "git",
