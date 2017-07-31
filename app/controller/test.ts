@@ -1,16 +1,15 @@
 'use strict';
+import { Controller } from 'egg';
 
-module.exports = app => {
-  class TopicsController extends app.Controller {
-
-    async show() {
+export default class TopicsController extends Controller {
+    public async show() {
       const { ctx } = this;
       ctx.body = await ctx.service.test.show({
         id: ctx.params.id,
       });
     }
 
-    async index() {
+    public async index() {
       const { ctx } = this;
       this.app.validator.validate({
         page: { type: 'string', format: /\d+/, required: false },
@@ -25,7 +24,7 @@ module.exports = app => {
       });
     }
 
-    async create() {
+    public async create() {
       const { ctx } = this;
       const id = await ctx.service.test.create(ctx.request.body);
       ctx.body = {
@@ -34,13 +33,10 @@ module.exports = app => {
       ctx.status = 201;
     }
 
-    async update() {
+    public async update() {
       const { ctx } = this;
       const id = ctx.params.id;
       await ctx.service.test.update(Object.assign({ id }, ctx.request.body));
       ctx.status = 204;
     }
-  }
-
-  return TopicsController;
-};
+}
