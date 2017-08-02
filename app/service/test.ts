@@ -1,7 +1,7 @@
 'use strict';
 import { Context, Service } from 'egg';
 
-export default class HackerNews extends Service {
+export default class TestService extends Service {
     public async show(params) {
       return `show:${params}`;
     }
