@@ -4,6 +4,7 @@ node_js:
 - '7.10.1'
 
 before_install:
+- npm i -g typescript
 - openssl aes-256-cbc -K $encrypted_cf2f27b2e746_key -iv $encrypted_cf2f27b2e746_iv
   -in .travis/id_rsa.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
@@ -12,6 +13,7 @@ before_install:
 install:
 - npm i npminstall && npminstall
 script:
+- npm run tsc
 - npm run ci
 after_script:
 - npminstall codecov && codecov
