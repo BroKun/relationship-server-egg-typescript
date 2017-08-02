@@ -1,5 +1,5 @@
 'use strict';
-import { Context, Service } from 'egg';
+import { Service } from 'egg';
 
 export default class TestService extends Service {
     public async show(params) {
