@@ -15,8 +15,7 @@
     ],
     "space-before-function-paren": false,
     "interface-name": [
-      true,
-      "never-prefix"
+      false
     ],
     "adjacent-overload-signatures": true,
     "member-access": [
@@ -37,7 +36,9 @@
       true,
       "allow-leading-underscore"
     ],
-    "align": [true, "statements"]
+    "align": [true, "statements"],
+    "no-shadowed-variable": false,
+    "no-this-assignment":false
   }
 }
 

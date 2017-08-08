@@ -36,7 +36,7 @@ export default class TopicsController extends Controller {
     public async update() {
       const { ctx } = this;
       const id = ctx.params.id;
-      await ctx.service.test.update(Object.assign({ id }, ctx.request.body));
+      await ctx.service.test.update({ id, ...ctx.request.body});
       ctx.status = 204;
     }
 }

@@ -1,16 +1,17 @@
 'use strict';
-const mm = require('egg-mock');
-const assert = require('assert');
+
+import * as assert from 'assert';
+import * as mm from 'egg-mock';
 
 describe('test/app/controller/home.test.js', () => {
-  let app;
-  before(() => {
-    app = mm.app();
-    return app.ready();
+  const app = mm.app();
+  before(async () => {
+    await app.ready();
   });
 
-  afterEach(mm.restore);
   after(() => app.close());
+
+  afterEach(mm.restore);
 
   it('should assert', () => {
     const pkg = require('../../../package.json');

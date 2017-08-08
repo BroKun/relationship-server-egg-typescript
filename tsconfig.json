@@ -11,7 +11,7 @@
     "pretty": true,
     "noEmitOnError": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noFallthroughCasesInSwitch": true,
@@ -26,6 +26,7 @@
     "test/**/*.ts"
   ],
   "exclude": [
-    "app/public"
+    "app/public",
+    "node_modules"
   ]
 }
