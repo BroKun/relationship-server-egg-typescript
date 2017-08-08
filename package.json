@@ -4,12 +4,12 @@
   "description": "a Wechat mini-programs for dreamtecher",
   "private": true,
   "dependencies": {
-    "egg": "^1.4.0",
-    "egg-validate": "^1.0.0",
+    "egg": "^1.7.0",
     "egg-development-proxyworker": "^1.1.0",
+    "egg-validate": "^1.0.0",
     "source-map-support": "^0.4.15",
-    "typescript": "^2.4.2",
-    "tslib": "^1.7.1"
+    "tslib": "^1.7.1",
+    "typescript": "^2.4.2"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.1",
