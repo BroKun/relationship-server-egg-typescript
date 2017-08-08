@@ -22,4 +22,5 @@ after_script:
 - scp relationship-server.tar.gz brokun@101.200.36.181:~/
 - ssh brokun@101.200.36.181 'rm -rf relationship-server'
 - ssh brokun@101.200.36.181 'mkdir -p relationship-server && tar -xzvf relationship-server.tar.gz -C relationship-server'
-- ssh brokun@101.200.36.181 '. ./relationship-server.sh'
+- ssh brokun@101.200.36.181 'egg-scripts stop'
+- ssh brokun@101.200.36.181 'egg-scripts start --port=8080 --daemon --env=prod --title=${appname}-server'
