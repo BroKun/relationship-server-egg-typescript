@@ -1,25 +1,36 @@
-'use strict';
 import { EggAppConfig } from 'egg';
 import 'source-map-support/register';
 
 declare module 'egg' {
   export interface Application {
-    validator: any;
+    validator: {
+      validate: any;
+    };
+  }
+  export interface EggAppConfig {
+    wxapp: {
+      AppID: string;
+      AppSecret: string;
+    };
   }
 }
 
 module.exports = (appInfo: EggAppConfig) => {
   const config: any = {};
-
-  // should change to your own
   config.keys = appInfo.name + '123456';
-
-  // add your config here
-  config.middleware = [ 'errorHandler' ];
+  config.middleware = [ 'errorHandler', 'jwt' ];
+  config.wxapp = {
+    AppID: 'wxb736f611f652ac16',
+    AppSecret: '0693d9005ce2c0886c194c3aa9e07a4a',
+  };
+  config.jwt = {
+    secret: 'escape master',
+    key: 'user',
+    ignore: '/login',
+  };
   return config;
 };
-// config/config.default.js
-// 如果10086被占用，你可以通过这个配置指定其他的端口号
+
 exports.proxyworker = {
   port: 10086,
 };
