@@ -1,4 +1,3 @@
-'use strict';
 import { Service } from 'egg';
 
 export default class TestService extends Service {

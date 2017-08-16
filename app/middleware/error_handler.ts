@@ -1,7 +1,6 @@
-'use strict';
 import { Application } from 'egg';
 
-module.exports = (option, app:Application) => {
+module.exports = (option, app: Application) => {
   return async function errHandler(ctx, next) {
     try {
       await next();

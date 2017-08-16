@@ -1,4 +1,3 @@
-'use strict';
 import { Controller } from 'egg';
 
 export default class TopicsController extends Controller {
