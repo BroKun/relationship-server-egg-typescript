@@ -12,6 +12,11 @@ declare module 'egg' {
       AppID: string;
       AppSecret: string;
     };
+    jwt: {
+      secret: string;
+      key: string;
+      ignore?: any;
+    }
   }
 }
 
