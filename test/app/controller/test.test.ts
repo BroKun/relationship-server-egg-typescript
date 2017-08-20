@@ -1,9 +1,7 @@
-'use strict';
-
 import * as assert from 'assert';
 import * as mm from 'egg-mock';
 
-describe('test/app/controller/home.test.js', () => {
+describe('controller/test.js', () => {
   const app = mm.app();
   before(async () => {
     await app.ready();
