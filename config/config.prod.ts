@@ -7,7 +7,7 @@ module.exports = (appInfo: EggAppConfig) => {
   config.jwt = {
     secret: 'escape master',
     key: 'user',
-    ignore: '/login',
+    ignore: '/user/token',
   };
   return config;
 };
