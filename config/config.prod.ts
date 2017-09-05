@@ -3,7 +3,7 @@ import 'source-map-support/register';
 
 module.exports = (appInfo: EggAppConfig) => {
   const config: any = {};
-  config.middleware = ['jwt' ];
+  config.middleware = ['errorHandler', 'jwt'];
   config.jwt = {
     secret: 'escape master',
     key: 'user',
