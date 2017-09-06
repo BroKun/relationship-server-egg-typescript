@@ -16,6 +16,7 @@ export default class User extends Controller {
     const res = await ctx.service.wechat.jscode2session(ctx.query.code);
     if (res.errcode) { throw new ErrorRes(422, res); }
     const token: string = jwt.sign({ ...res, exp: moment().add(30, 'days').unix() }, config.jwt.secret);
+    ctx.logger.debug(`生成新token：${token}`);
     return {
       token,
       openid: res.openid,

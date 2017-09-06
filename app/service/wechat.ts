@@ -23,7 +23,6 @@ export default class TestService extends Service {
     const ops = new ReqOps(
       constant.jscode2session.hostname,
       `${constant.jscode2session.path}?${queryString.stringify(params)}`);
-    console.log(ops);
     return JSON.parse(await https(ops));
   }
 }
