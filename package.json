@@ -38,7 +38,6 @@
     "clean": "rimraf app/**/*.{js,map} test/**/*.{js,map} config/**/*.{js,map}",
     "tsc": "tsc -p tsconfig.json",
     "tsc:w": "tsc -p tsconfig.json -w",
-    "start": "node index.js",
     "dev": "egg-bin dev",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
