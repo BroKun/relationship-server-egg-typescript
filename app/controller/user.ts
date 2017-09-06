@@ -1,5 +1,5 @@
 import { Controller } from 'egg';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import * as moment from 'moment';
 import ErrorRes from '../common/error';
 interface SessionInfo {
@@ -15,7 +15,7 @@ export default class User extends Controller {
     const { ctx, config } = this;
     const res = await ctx.service.wechat.jscode2session(ctx.query.code);
     if (res.errcode) { throw new ErrorRes(422, res); }
-    const token: string = jwt.sign(res, config.jwt.secret, { exp: moment().add(30, 'days').unix() });
+    const token: string = jwt.sign({ ...res, exp: moment().add(30, 'days').unix() }, config.jwt.secret);
     return {
       token,
       openid: res.openid,

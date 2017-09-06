@@ -18,7 +18,7 @@ describe('controller/user.js', () => {
 
   it('test index', () => {
     return app.httpRequest()
-      .get('/user/token?code=1')
+      .get('/user/token?code=1111')
       .expect(422);
   });
 });
