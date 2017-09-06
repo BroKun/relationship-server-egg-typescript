@@ -11,16 +11,16 @@ export default class User extends Controller {
   /**
    * 登录获取openid,unionid与token
    */
-  public async token(): Promise<SessionInfo> {
+  public async token() {
     const { ctx, config } = this;
-    const res = await ctx.service.wechat.jscode2session(ctx.query.code);
-    if (res.errcode) { throw new ErrorRes(422, res); }
-    const token: string = jwt.sign({ ...res, exp: moment().add(30, 'days').unix() }, config.jwt.secret);
-    ctx.logger.debug(`生成新token：${token}`);
-    return {
+    const wxRes = await ctx.service.wechat.jscode2session(ctx.query.code);
+    if (wxRes.errcode) { throw new ErrorRes(422, wxRes); }
+    const token: string = jwt.sign({ ...wxRes, exp: moment().add(30, 'days').unix() }, config.jwt.secret);
+    const res: SessionInfo = {
       token,
-      openid: res.openid,
-      unionid: res.unionid,
+      openid: wxRes.openid,
+      unionid: wxRes.unionid,
     };
+    ctx.body = res;
   }
 }
