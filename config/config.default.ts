@@ -1,4 +1,6 @@
 import { EggAppConfig } from 'egg';
+import * as fs from 'fs';
+import yaml from 'js-yaml';
 import 'source-map-support/register';
 
 declare module 'egg' {
@@ -19,11 +21,18 @@ declare module 'egg' {
     };
   }
 }
-
+interface Privacy {
+  mongoose: {
+    url: string;
+    option: object;
+  };
+}
 module.exports = (appInfo: EggAppConfig) => {
+  const privacyInfo: Privacy = yaml.safeLoad(fs.readFileSync(`./config.yml`, 'utf8'));
   const config: any = {};
   config.keys = appInfo.name + '123456';
-  config.middleware = [ 'errorHandler'];
+  config.mongoose = privacyInfo.mongoose;
+  config.middleware = ['errorHandler'];
   config.wxapp = {
     AppID: 'wxb736f611f652ac16',
     AppSecret: '0693d9005ce2c0886c194c3aa9e07a4a',
