@@ -1,6 +1,6 @@
 import { EggAppConfig } from 'egg';
 import * as fs from 'fs';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import 'source-map-support/register';
 
 declare module 'egg' {
