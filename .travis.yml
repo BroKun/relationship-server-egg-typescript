@@ -8,6 +8,7 @@ before_install:
   -in .travis/id_rsa.enc -out ~/.ssh/id_rsa -d # 生产机登录密钥
 - chmod 600 ~/.ssh/id_rsa
 - echo -e "Host 101.200.36.181\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config # 跳过严格检查
+- cp -f ./travis/config.ci.yml ./config/config.yml
 install:
 - npm i npminstall && npminstall
 script:
@@ -17,7 +18,6 @@ after_script:
 - npminstall codecov && codecov # 生成测试覆盖率报告
 - npm i coveralls
 - cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls # 发布测试报告到coveralls
-- rm -rf ./config/config.yml
 - openssl aes-256-cbc -K $encrypted_456eeb0c6b33_key -iv $encrypted_456eeb0c6b33_iv
   -in ./travis/config.yml.enc -out ./config/config.yml -d # 生产环境配置
 - npm run clean
