@@ -32,7 +32,6 @@ module.exports = (appInfo: EggAppConfig) => {
   const config: any = {};
   config.keys = appInfo.name + '123456';
   config.mongoose = privacyInfo.mongoose;
-  config.middleware = ['errorHandler'];
   config.wxapp = {
     AppID: 'wxb736f611f652ac16',
     AppSecret: '0693d9005ce2c0886c194c3aa9e07a4a',
