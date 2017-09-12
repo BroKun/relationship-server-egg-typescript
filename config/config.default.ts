@@ -28,7 +28,7 @@ interface Privacy {
   };
 }
 module.exports = (appInfo: EggAppConfig) => {
-  const privacyInfo: Privacy = yaml.safeLoad(fs.readFileSync(`./config.yml`, 'utf8'));
+  const privacyInfo: Privacy = yaml.safeLoad(fs.readFileSync(`config/config.yml`, 'utf8'));
   const config: any = {};
   config.keys = appInfo.name + '123456';
   config.mongoose = privacyInfo.mongoose;
