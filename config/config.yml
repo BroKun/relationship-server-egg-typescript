@@ -1,3 +1,3 @@
 mongoose:
- url: "mongodb://master:escape@127.0.0.1/relationship"
+ url: "mongodb://test:test@101.200.36.181:27017/test"
  option: {}
