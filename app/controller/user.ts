@@ -23,4 +23,19 @@ export default class User extends Controller {
     };
     ctx.body = res;
   }
+  public async show() {
+    // TODO: 查询用户信息
+  }
+
+  public async index() {
+    // TODO:
+  }
+
+  public async create() {
+    // TODO: 创建用户
+  }
+
+  public async update() {
+    // TODO: 更新用户
+  }
 }

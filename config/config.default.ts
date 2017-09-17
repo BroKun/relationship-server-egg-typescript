@@ -8,6 +8,7 @@ declare module 'egg' {
     validator: {
       validate: any;
     };
+    mongoose: any;
   }
   export interface EggAppConfig {
     wxapp: {
