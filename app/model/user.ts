@@ -1,11 +1,17 @@
 import { Application } from 'egg';
-module.exports = (app:Application) => {
+import { Document } from 'mongoose';
+export interface IUser extends Document {
+  realName: string;
+  enrollmentYear?: number;
+};
+
+export default (app:Application) => {
   const mongoose = app.mongoose;
   // TODO: 完善用户信息
   const UserSchema = new mongoose.Schema({
-    realName: { type: String },
+    realName: { type: String, required: true },
     enrollmentYear: { type: Number },
     // picture: { type: String},
   });
-  return mongoose.model('User', UserSchema);
+  return mongoose.model<IUser>('User', UserSchema);
 }

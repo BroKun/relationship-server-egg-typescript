@@ -3,25 +3,6 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import 'source-map-support/register';
 
-declare module 'egg' {
-  export interface Application {
-    validator: {
-      validate: any;
-    };
-    mongoose: any;
-  }
-  export interface EggAppConfig {
-    wxapp: {
-      AppID: string;
-      AppSecret: string;
-    };
-    jwt: {
-      secret: string;
-      key: string;
-      ignore?: any;
-    };
-  }
-}
 interface Privacy {
   mongoose: {
     url: string;

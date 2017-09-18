@@ -4,7 +4,6 @@ import wechat from './wechat';
 declare module 'egg' {
   export interface IService {
     test: test;
-    user: user;
     wechat: wechat;
   }
 }
