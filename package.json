@@ -4,6 +4,7 @@
   "description": "a Wechat mini-programs for dreamtecher",
   "private": true,
   "dependencies": {
+    "@types/mongoose": "^4.7.21",
     "egg": "^1.7.0",
     "egg-development-proxyworker": "^1.1.1",
     "egg-mongoose": "^2.1.0",
