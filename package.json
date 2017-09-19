@@ -4,7 +4,6 @@
   "description": "a Wechat mini-programs for dreamtecher",
   "private": true,
   "dependencies": {
-    "@types/mongoose": "^4.7.21",
     "egg": "^1.7.0",
     "egg-development-proxyworker": "^1.1.1",
     "egg-mongoose": "^2.1.0",
@@ -20,9 +19,11 @@
     "wechat-api": "^1.35.1"
   },
   "devDependencies": {
+    "@types/moment": "^2.13.0",
+    "@types/mongoose": "^4.7.21",
     "@types/cheerio": "^0.22.1",
     "@types/mocha": "^2.2.40",
-    "@types/node": "^8.0.27",
+    "@types/node": "^8.0.28",
     "@types/supertest": "^2.0.0",
     "autod": "^2.9.0",
     "autod-egg": "^1.0.0",
