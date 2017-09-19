@@ -13,6 +13,7 @@ export default class User extends Controller {
 
   public async create() {
     const { ctx } = this;
+    console.log(ctx.A);
     ctx.body = await ctx.model.User.find({});
   }
 

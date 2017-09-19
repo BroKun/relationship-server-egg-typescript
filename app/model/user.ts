@@ -5,13 +5,13 @@ export interface IUser extends Document {
   enrollmentYear?: number;
 };
 
-export default (app:Application) => {
+export default (app: Application) => {
   const mongoose = app.mongoose;
   // TODO: 完善用户信息
-  const UserSchema = new mongoose.Schema({
+  const userSchema = new mongoose.Schema({
     realName: { type: String, required: true },
     enrollmentYear: { type: Number },
     // picture: { type: String},
   });
-  return mongoose.model<IUser>('User', UserSchema);
-}
+  return mongoose.model<IUser>('User', userSchema);
+};

@@ -1,5 +1,5 @@
 import { EggAppConfig } from 'egg';
-import { Mongoose } from 'mongoose';
+import * as Mongoose from 'mongoose';
 declare module 'egg' {
   export interface Application {
     validator: {
@@ -17,8 +17,5 @@ declare module 'egg' {
       key: string;
       ignore?: any;
     };
-  }
-  export interface Context {
-    model: any;
   }
 }

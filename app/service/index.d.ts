@@ -1,9 +1,8 @@
-import test from './test';
-import user from './user';
-import wechat from './wechat';
+import Test from './test';
+import Wechat from './wechat';
 declare module 'egg' {
   export interface IService {
-    test: test;
-    wechat: wechat;
+    test: Test;
+    wechat: Wechat;
   }
 }
