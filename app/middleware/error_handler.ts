@@ -1,7 +1,7 @@
-import { Application } from 'egg';
+import { Application, Context } from 'egg';
 
-module.exports = (option, app: Application) => {
-  return async function errHandler(ctx, next) {
+export default (option, app: Application) => {
+  return async function errHandler(ctx: Context, next): Promise<void> {
     try {
       await next();
     } catch (err) {
