@@ -7,35 +7,12 @@
       "request": "launch",
       "cwd": "${workspaceRoot}",
       "runtimeExecutable": "npm",
-      "windows": {
-        "runtimeExecutable": "npm.cmd"
-      },
-      "runtimeArgs": [
-        "run", "debug"
-      ],
-      "protocol": "inspector",
-      "port": 5858
-    },
-    {
-      "name": "Attach Agent",
-      "type": "node",
-      "request": "attach",
-      "protocol": "inspector",
-      "port": 5856
-    },
-    {
-      "name": "Attach Worker",
-      "type": "node",
-      "request": "attach",
-      "protocol": "inspector",
+      "windows": { "runtimeExecutable": "npm.cmd" },
+      "runtimeArgs": [ "run", "debug" ],
+      "console": "integratedTerminal",
+      "protocol": "auto",
       "restart": true,
-      "port": 10086
-    }
-  ],
-  "compounds": [
-    {
-      "name": "Debug Egg",
-      "configurations": ["Attach Agent", "Attach Worker"]
+      "port": 9999
     }
   ]
 }
