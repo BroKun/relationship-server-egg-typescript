@@ -1,12 +1,12 @@
-exports.validate = {
+export const validate = {
   enable: true,
   package: 'egg-validate',
 };
-exports.proxyworker = {
+export const proxyworker = {
   enable: true,
   package: 'egg-development-proxyworker',
 };
-exports.mongoose = {
+export const mongoose = {
   enable: true,
   package: 'egg-mongoose',
 };
