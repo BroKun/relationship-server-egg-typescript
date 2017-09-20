@@ -19,6 +19,7 @@
     "wechat-api": "^1.35.1"
   },
   "devDependencies": {
+    "@types/koa-jwt": "^3.2.1",
     "@types/moment": "^2.13.0",
     "@types/mongoose": "^4.7.21",
     "@types/cheerio": "^0.22.1",
