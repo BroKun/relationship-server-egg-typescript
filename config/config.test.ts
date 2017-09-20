@@ -1,17 +1,26 @@
 import { EggAppConfig } from 'egg';
 import 'source-map-support/register';
 
-module.exports = (appInfo: EggAppConfig) => {
-  const config: any = {};
-  config.middleware = ['errorHandler', 'jwt'];
-  config.jwt = {
-    secret: 'escape master',
-    key: 'user',
-    ignore: '/user/token',
+export interface Test {
+  middleware: Array<string>;
+  jwt: {
+    secret: string;
+    key: string;
+    ignore?: any;
   };
-  return config;
+}
+
+export default (appInfo: EggAppConfig):Test => {
+  return {
+    middleware: ['errorHandler', 'jwt'],
+    jwt: {
+      secret: 'escape master',
+      key: 'user',
+      ignore: '/user/token',
+    },
+  };
 };
 
-exports.proxyworker = {
+export const proxyworker = {
   port: 8080,
 };
