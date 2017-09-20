@@ -8,6 +8,6 @@
     "run": true,
     "logs": true,
     "out": true,
-    "node_modules": true
+    "node_modules": false
   }
 }
