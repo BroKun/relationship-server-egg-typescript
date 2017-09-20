@@ -1,3 +1,6 @@
 mongoose:
- url: "mongodb://test:test@101.200.36.181:27017/test"
- option: {}
+  url: "mongodb://test:test@101.200.36.181:27017/test"
+  option: {}
+wxapp:
+  AppID: 'wxb736f611f652ac16'
+  AppSecret: '0693d9005ce2c0886c194c3aa9e07a4a'
