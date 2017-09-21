@@ -1,5 +1,5 @@
 import { EggAppConfig } from 'egg';
-import * as Mongoose from 'mongoose';
+import { Mongoose } from 'mongoose';
 import { Default } from './config.default'
 import { Local } from './config.local'
 import { Prod } from './config.prod'
