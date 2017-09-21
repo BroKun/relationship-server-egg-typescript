@@ -3,7 +3,6 @@ import * as Mongoose from 'mongoose';
 import { Default } from './config.default'
 import { Local } from './config.local'
 import { Prod } from './config.prod'
-import { Test } from './config.test'
 import { UnitTest } from './config.unittest'
 declare module 'egg' {
   export interface Application {
@@ -13,8 +12,7 @@ declare module 'egg' {
     mongoose: Mongoose;
   }
   export type LocalConfig = EggAppConfig &  Default &  Local ;
-  export type TestConfig = EggAppConfig &  Default &  Test;
   export type ProdConfig = EggAppConfig &  Default &  Prod;
   export type UnitTestConfig = EggAppConfig &  Default &  UnitTest;
-  export type DefaultConfig = LocalConfig|TestConfig|ProdConfig|UnitTestConfig;
+  export type DefaultConfig = LocalConfig|ProdConfig|UnitTestConfig;
 }
