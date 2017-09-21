@@ -1,7 +1,6 @@
-import * as assert from 'assert';
 import * as mm from 'egg-mock';
 
-describe('controller/user.js', () => {
+describe('token管理', () => {
   const app = mm.app();
   before(async () => {
     await app.ready();
@@ -11,14 +10,11 @@ describe('controller/user.js', () => {
 
   afterEach(mm.restore);
 
-  it('should assert', () => {
-    const pkg = require('../../../package.json');
-    assert(app.config.keys.startsWith(pkg.name));
-  });
-
-  it('test index', () => {
+  it('创建token', () => {
+    app.mockCsrf();
     return app.httpRequest()
-      .get('/user/token?code=1111')
+      .post('/api/token')
+      .send({code: 1111})
       .expect(422);
   });
 });
