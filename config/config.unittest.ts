@@ -1,7 +1,7 @@
 import { EggAppConfig } from 'egg';
 import 'source-map-support/register';
 
-export interface Prod {
+export interface UnitTest {
   middleware: string[];
   jwt: {
     secret: string;
@@ -10,9 +10,9 @@ export interface Prod {
   };
 }
 
-export default (appInfo: EggAppConfig): Prod => {
+export default (appInfo: EggAppConfig): UnitTest => {
   return {
-    middleware: ['errorHandler', 'jwt'],
+    middleware: ['errorHandler'],
     jwt: {
       secret: 'escape master',
       key: 'user',

@@ -1,4 +1,4 @@
-import { Service } from 'egg';
+import { DefaultConfig, Service } from 'egg';
 import * as queryString from 'querystring';
 import constant from '../utils/constant';
 import { https, ReqOps } from '../utils/httpUtil';
@@ -15,8 +15,8 @@ export default class TestService extends Service {
   public async jscode2session(code: string): Promise<Jscode2sessionRes> {
     const { config } = this;
     const params = {
-      appid: config.wxapp.AppID,
-      secret: config.wxapp.AppSecret,
+      appid: (config as DefaultConfig).wxapp.AppID,
+      secret: (config as DefaultConfig).wxapp.AppSecret,
       js_code: code,
       grant_type: 'authorization_code',
     };

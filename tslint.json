@@ -38,7 +38,9 @@
     ],
     "align": [true, "statements"],
     "no-shadowed-variable": false,
-    "no-this-assignment":false
+    "no-this-assignment":false,
+    "no-submodule-imports":false,
+    "no-string-literal":false
   }
 }
 
