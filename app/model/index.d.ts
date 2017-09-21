@@ -1,9 +1,9 @@
 import { IUser } from './user';
-import { Mongoose } from 'mongoose';
+import { Mongoose, Model } from 'mongoose';
 declare module 'egg' {
   export interface Context {
     model: {
-      User: IUser,
+      User: Model<IUser>,
     };
   }
 }

@@ -10,6 +10,14 @@ export default class User extends Controller {
   }
 
   public async create() {
+    const { ctx } = this;
+    const user = new ctx.model.User({
+      openId: ctx.request.body['openId'],
+      realName: ctx.request.body['realName'],
+      enrollmentYear: ctx.request.body['enrollmentYear'],
+    });
+    const savedUser = await user.save();
+    ctx.body = savedUser;
   }
 
   public async update() {
