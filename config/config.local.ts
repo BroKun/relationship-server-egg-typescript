@@ -2,7 +2,7 @@ import { EggAppConfig } from 'egg';
 import 'source-map-support/register';
 
 export interface Local {
-  middleware: Array<string>;
+  middleware: string[];
   jwt: {
     secret: string;
     key: string;
@@ -10,7 +10,7 @@ export interface Local {
   };
 }
 
-export default (appInfo: EggAppConfig):Local => {
+export default (appInfo: EggAppConfig): Local => {
   return {
     middleware: ['errorHandler', 'jwt'],
     jwt: {
@@ -19,8 +19,4 @@ export default (appInfo: EggAppConfig):Local => {
       ignore: '/user/token',
     },
   };
-};
-
-export const proxyworker = {
-  port: 8080,
 };

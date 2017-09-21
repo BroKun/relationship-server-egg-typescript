@@ -20,7 +20,3 @@ export default (appInfo: EggAppConfig): UnitTest => {
     },
   };
 };
-
-export const proxyworker = {
-  port: 8080,
-};

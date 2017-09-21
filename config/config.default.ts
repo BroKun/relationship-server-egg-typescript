@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import 'source-map-support/register';
 
-
 interface Privacy {
   mongoose: {
     url: string;
@@ -19,17 +18,13 @@ export type Default = Privacy & {
    * token加解密
    */
   tokenSecret: string;
-}
+  keys: string;
+};
 
 export default (appInfo: EggAppConfig): Default => {
   const privacyInfo: Privacy = yaml.safeLoad(fs.readFileSync(`config/config.yml`, 'utf8'));
-  const config: Default = Object.assign({
+  const config: Default = {
     keys: appInfo.name + '123456',
-    tokenSecret: '',
-  }, privacyInfo);
+    tokenSecret: '', ...privacyInfo};
   return config;
-};
-
-export const proxyworker = {
-  port: 10086,
 };
