@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 export interface IUser extends Document {
   realName: string;
   enrollmentYear?: number;
-};
+}
 
 export default (app: Application) => {
   const mongoose = app.mongoose;

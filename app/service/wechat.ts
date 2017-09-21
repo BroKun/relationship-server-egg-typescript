@@ -1,4 +1,4 @@
-import { Service, DefaultConfig } from 'egg';
+import { DefaultConfig, Service } from 'egg';
 import * as queryString from 'querystring';
 import constant from '../utils/constant';
 import { https, ReqOps } from '../utils/httpUtil';

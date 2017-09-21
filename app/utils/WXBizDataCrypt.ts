@@ -5,20 +5,20 @@ interface Base {
    */
   watermark:
   {
-      /**
-       * 敏感数据归属appid，开发者可校验此参数与自身appid是否一致
-       */
-      appid:string;
-      /**
-       * 敏感数据获取的时间戳, 开发者可以用于数据时效性校验
-       */
-      timestamp:number;
-  }
+    /**
+     * 敏感数据归属appid，开发者可校验此参数与自身appid是否一致
+     */
+    appid: string;
+    /**
+     * 敏感数据获取的时间戳, 开发者可以用于数据时效性校验
+     */
+    timestamp: number;
+  };
 }
-export default class WXBizDataCrypt{
-  appId:string;
-  sessionKey:string;
-  constructor(appId:string, sessionKey:string) {
+export default class WXBizDataCrypt {
+  appId: string;
+  sessionKey: string;
+  constructor(appId: string, sessionKey: string) {
     this.appId = appId;
     this.sessionKey = sessionKey;
   }
@@ -28,7 +28,7 @@ export default class WXBizDataCrypt{
     encryptedData = new Buffer(encryptedData, 'base64');
     iv = new Buffer(iv, 'base64');
 
-    let decoded:T & Base = null;
+    let decoded: T & Base = null;
     try {
       // 解密
       const decipher = crypto.createDecipheriv('aes-128-cbc', sessionKey, iv);
@@ -44,5 +44,5 @@ export default class WXBizDataCrypt{
       throw new Error('Illegal Buffer');
     }
     return decoded;
-  };
+  }
 }

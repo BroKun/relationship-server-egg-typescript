@@ -33,8 +33,8 @@ function utilGenerator(httpMethod) {
 export const http = utilGenerator(httpMethod);
 export const https = utilGenerator(httpsMethod);
 interface Headers {
-  'Content-Type' ?: string;
-  'Content-Length' ?: string | number;
+  'Content-Type'?: string;
+  'Content-Length'?: string | number;
 }
 export class ReqOps {
   public method: string = 'GET';
@@ -45,13 +45,13 @@ export class ReqOps {
   constructor(
     hostname: string = 'localhost',
     path: string = '/',
-    method?: string|null,
-    port?: number|null,
-    headers?: Headers|null) {
+    method?: string | null,
+    port?: number | null,
+    headers?: Headers | null) {
     this.hostname = hostname;
     this.path = path;
     if (method) { this.method = method; }
     if (port) { this.port = port; }
     if (headers) { this.headers = headers; }
-  };
+  }
 }
