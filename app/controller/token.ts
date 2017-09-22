@@ -15,13 +15,13 @@ export default class Token extends Controller {
   public async create() {
     const { ctx, config } = this;
     const wxRes = await ctx.service.wechat.jscode2session(ctx.request.body['code']);
-    if (wxRes.errcode) { throw new ErrorRes(422, wxRes); }
+    if ((wxRes as WX.Error).errcode) { throw new ErrorRes(422, wxRes); }
     const exp: number = moment().add(30, 'days').unix();
-    const token: string = jwt.sign({ ...wxRes, exp  }, (config as ProdConfig).jwt.secret);
+    const token: string = jwt.sign({ ...wxRes, exp }, (config as ProdConfig).jwt.secret);
     const res: SessionInfo = {
       token,
-      openid: wxRes.openid,
-      unionid: wxRes.unionid,
+      openid: (wxRes as WX.Session).openid,
+      unionid: (wxRes as WX.Session).unionid,
     };
     ctx.body = res;
   }
