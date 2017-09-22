@@ -24,5 +24,6 @@ export default class Token extends Controller {
       unionid: (wxRes as WX.Session).unionid,
     };
     ctx.body = res;
+    ctx.status = 201;
   }
 }

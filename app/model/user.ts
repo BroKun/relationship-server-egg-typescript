@@ -7,7 +7,8 @@ export interface IUser extends Document {
   createAt: Date;
   updateAt: Date;
 }
-export default (app: Application): Model<IUser> => {
+export type UserModel = Model<IUser>;
+export default (app: Application): UserModel => {
   const mongoose = app.mongoose;
   // TODO: 完善用户信息
   const userSchema = new mongoose.Schema({

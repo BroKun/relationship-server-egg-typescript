@@ -11,13 +11,10 @@ export default class User extends Controller {
 
   public async create() {
     const { ctx } = this;
-    const user = new ctx.model.User({
-      openId: ctx.request.body['openId'],
-      realName: ctx.request.body['realName'],
-      enrollmentYear: ctx.request.body['enrollmentYear'],
-    });
+    const user = new ctx.model.User(ctx.request.body);
     const savedUser = await user.save();
     ctx.body = savedUser;
+    ctx.status = 201;
   }
 
   public async update() {
