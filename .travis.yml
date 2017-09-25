@@ -8,7 +8,6 @@ before_install:
   -in .travis/id_rsa.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
 - echo -e "Host 101.200.36.181\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- cp -f .travis/config.ci.yml config/config.yml
 install:
 - npm i npminstall && npminstall
 script:
@@ -32,8 +31,6 @@ after_script:
 - ssh brokun@101.200.36.181 'cd relationship-server && egg-scripts stop'
 - ssh brokun@101.200.36.181 'cd relationship-server && egg-scripts start --port=8080
   --daemon --env=prod --title=${appname}-server'
-service:
-- mongodb
 notifications:
   slack:
     secure: ASaK1V57pQgDllZD8/xSF/ixCJYComg6q/KIaeYDE/iMVOiSzhb9Tj5DdJahLYTfHuke8QPoNcks8Au9hXttY/gALCRi/xqy+JzFbbkDNVBrd0JlPd1WYGJgEYphFxpL/RTw2qNjvsdvrGwBNcNgf7Ic5PpoXUM8KUnRUYTb9oZAka5GgAfX9UKY+NWfBhsX9yOGy3sHBC2JnpNMbB6q77PWYXT/iLoRvwIOKVehsaZDG1HlO42vEcOSq8QuqJVfQ02iGxTSCZyp5wwbv3fPvgzCd34y3DUI/kg1KMeqVUWKE9B7/g6bwl8KQn0r/Qm3abzSas5En99YcuqriRScMC8vs6AYD+aST031XncTNrxvFoHfYKFvcMEZvmx5WjK12HFb2AZIPYFEDr4pQqirPuO7JNCX93+zUkABs4c5tTPqXHxy6AR40VzkqXxyxrOwftcYn4rbIS44bfzBaaFWiQbhYcj7kIKbU+huMauoHn3a2dlI6mKioLNPWaQJeIaAUccSdrCm2zO4dS2sYM+A6WjXkcX8p3aAfLSdZgVs/oQ9v4WEVFJnYjheEZNV5k5c51BQhfbBlTQR+c8J98OuF4ufltUOaaSYsNKwqahqzYN6b2eK08ECr8cf4RB3rXMVVuR5LWqqYceQJDlWhsGICfLxrvHcVNaTszFKJVW8qTo=
