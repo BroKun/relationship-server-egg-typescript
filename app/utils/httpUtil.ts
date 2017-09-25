@@ -13,12 +13,8 @@ function utilGenerator(httpMethod) {
           dataParts.push(chunk);
         });
         res.on('end', () => {
-          try {
-            const resData = dataParts.join('');
-            resolve(resData);
-          } catch (ex) {
-            reject(ex);
-          }
+          const resData = dataParts.join('');
+          resolve(resData);
         });
       });
       req.on('error', (e) => {
