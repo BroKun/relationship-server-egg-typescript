@@ -1,5 +1,5 @@
 mongoose:
-  url: "mongodb://test:test@101.200.36.181:27017/test"
+  url: "mongodb://mongo:test@101.200.36.181:27017/test"
   option: {}
 wxapp:
   AppID: 'wxb736f611f652ac16'
