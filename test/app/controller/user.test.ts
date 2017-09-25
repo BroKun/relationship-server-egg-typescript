@@ -21,4 +21,15 @@ describe('token管理', () => {
       })
       .expect(201);
   });
+  it('数据验证失败', () => {
+    app.mockCsrf();
+    return app.httpRequest()
+      .post('/api/user')
+      .send({
+        realName: '张三',
+        enrollmentYear: 2061,
+        openId: '11111',
+      })
+      .expect(400);
+  });
 });
