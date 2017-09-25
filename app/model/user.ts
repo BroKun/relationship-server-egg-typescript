@@ -7,24 +7,36 @@ export interface IUser extends Document {
   createAt: Date;
   updateAt: Date;
 }
-export type UserModel = Model<IUser>;
-export default (app: Application): UserModel => {
+export default (app: Application): Model<IUser> => {
   const mongoose = app.mongoose;
   // TODO: 完善用户信息
   const userSchema = new mongoose.Schema({
-    openId: { type: String, required: true },
-    realName: { type: String, required: true },
-    enrollmentYear: { type: Number },
-    createAt: {
-      type: Date, required: true,
-      default: Date.now(),
+    openId: {
+      type: String,
+      required: true,
     },
-    updateAt: { type: Date, required: true },
+    realName: {
+      type: String,
+      required: true,
+    },
+    enrollmentYear: {
+      type: Number,
+    },
+    createAt: {
+      type: Date,
+      required: true,
+      default: Date.now,
+    },
+    updateAt: {
+      type: Date,
+      required: true,
+      default: Date.now,
+    },
     // picture: { type: String},
   });
   userSchema.pre('save', function (next) {
     const now = new Date();
-    this.update_at = now;
+    this.updateAt = now;
     next();
   });
   return mongoose.model<IUser>('User', userSchema);
