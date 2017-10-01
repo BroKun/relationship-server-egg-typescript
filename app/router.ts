@@ -1,7 +1,7 @@
 import { Application } from 'egg';
 
 module.exports = (app: Application) => {
-  app.resources('token', '/api/token', 'token');
-  app.resources('user', '/api/user', 'user');
+  app.resources('tokens', '/api/tokens', 'tokens');
+  app.resources('users', '/api/users', 'users');
   app.resources('test', '/api/test', 'test');
 };
