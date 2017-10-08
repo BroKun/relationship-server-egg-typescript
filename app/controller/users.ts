@@ -19,6 +19,7 @@ export default class User extends Controller {
     if (isString(ctx.params.id)) {
       const user = await ctx.model.User.find({ _id: '59c872ee9639dd1078ceb19e' });
       ctx.body = user;
+      return;
     }
     throw new ErrorRes(422, '仅允许依赖单个id查找');
   }
