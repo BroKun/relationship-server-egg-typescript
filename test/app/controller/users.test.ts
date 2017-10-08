@@ -2,7 +2,7 @@ import * as mm from 'egg-mock';
 
 describe('token管理', () => {
   const app = mm.app();
-  before(async () => {
+  before(async() => {
     await app.ready();
   });
 
@@ -31,5 +31,12 @@ describe('token管理', () => {
         openId: '11111',
       })
       .expect(400);
+  });
+
+  it('请求单一User', () => {
+    app.mockCsrf();
+    return app.httpRequest()
+      .get('/api/users/s45s')
+      .expect(200);
   });
 });
