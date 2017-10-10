@@ -12,7 +12,7 @@ export interface Prod {
 
 export default (appInfo: EggAppConfig): Prod => {
   return {
-    middleware: ['errorHandler', 'jwt'],
+    middleware: ['errorHandler', 'notfoundHandler', 'jwt'],
     jwt: {
       secret: 'escape master',
       key: 'user',
