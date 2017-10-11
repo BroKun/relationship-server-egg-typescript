@@ -2,7 +2,7 @@ import * as mm from 'egg-mock';
 
 describe('token管理', () => {
   const app = mm.app();
-  before(async() => {
+  before(async () => {
     await app.ready();
   });
 
