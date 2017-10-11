@@ -12,11 +12,11 @@ export interface UnitTest {
 
 export default (appInfo: EggAppConfig): UnitTest => {
   return {
-    middleware: ['errorHandler'],
+    middleware: ['errorHandler', 'notfoundHandler'],
     jwt: {
       secret: 'escape master',
       key: 'user',
-      ignore: '/user/token',
+      ignore: '/api/v1/tokens',
     },
   };
 };

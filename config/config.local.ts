@@ -12,11 +12,11 @@ export interface Local {
 
 export default (appInfo: EggAppConfig): Local => {
   return {
-    middleware: ['errorHandler', 'jwt'],
+    middleware: ['errorHandler', 'notfoundHandler', 'jwt'],
     jwt: {
       secret: 'escape master',
       key: 'user',
-      ignore: '/user/token',
+      ignore: '/api/v1/tokens',
     },
   };
 };

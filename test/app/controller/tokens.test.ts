@@ -13,7 +13,7 @@ describe('token管理', () => {
   it('真实请求,创建token,无效的Code', () => {
     app.mockCsrf();
     return app.httpRequest()
-      .post('/api/tokens')
+      .post('/api/v1/tokens')
       .send({ code: 1111 })
       .expect(422);
   });
@@ -27,7 +27,7 @@ describe('token管理', () => {
       };
     });
     return app.httpRequest()
-      .post('/api/tokens')
+      .post('/api/v1/tokens')
       .send({ code: 1111 })
       .expect(201);
   });
@@ -41,7 +41,7 @@ describe('token管理', () => {
       };
     });
     return app.httpRequest()
-      .post('/api/tokens')
+      .post('/api/v1/tokens')
       .send({ code: 1111 })
       .expect(422);
   });
