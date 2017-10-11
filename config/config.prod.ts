@@ -16,7 +16,7 @@ export default (appInfo: EggAppConfig): Prod => {
     jwt: {
       secret: 'escape master',
       key: 'user',
-      ignore: '/user/token',
+      ignore: '/api/v1/tokens',
     },
   };
 };

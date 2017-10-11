@@ -16,7 +16,7 @@ export default (appInfo: EggAppConfig): Local => {
     jwt: {
       secret: 'escape master',
       key: 'user',
-      ignore: '/user/token',
+      ignore: '/api/v1/tokens',
     },
   };
 };
