@@ -18,7 +18,7 @@ describe('测试模块', () => {
 
   it('test index请求', () => {
     return app.httpRequest()
-      .get('/api/test?page=1&tab=test&limit=1')
+      .get('/api/v1/test?page=1&tab=test&limit=1')
       .expect(200)
       .expect('Content-Type', /json/)
       .expect((res) => {
@@ -27,7 +27,7 @@ describe('测试模块', () => {
   });
   it('test get请求', () => {
     return app.httpRequest()
-      .get('/api/test/123')
+      .get('/api/v1/test/123')
       .expect(200)
       .expect((res) => {
         assert(res.text.startsWith('show:'));
@@ -36,7 +36,7 @@ describe('测试模块', () => {
   it('test post请求', () => {
     app.mockCsrf();
     return app.httpRequest()
-      .post('/api/test')
+      .post('/api/v1/test')
       .send({ content: 'test' })
       .expect(201)
       .expect('Content-Type', /json/)
@@ -47,7 +47,7 @@ describe('测试模块', () => {
   it('test put请求', () => {
     app.mockCsrf();
     return app.httpRequest()
-      .put('/api/test/123')
+      .put('/api/v1/test/123')
       .expect(204);
   });
 });

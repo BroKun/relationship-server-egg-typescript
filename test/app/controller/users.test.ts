@@ -13,7 +13,7 @@ describe('token管理', () => {
   it('真实请求,创建User', () => {
     app.mockCsrf();
     return app.httpRequest()
-      .post('/api/users')
+      .post('/api/v1/users')
       .send({
         realName: '张三',
         enrollmentYear: 2001,
@@ -24,7 +24,7 @@ describe('token管理', () => {
   it('数据验证失败', () => {
     app.mockCsrf();
     return app.httpRequest()
-      .post('/api/users')
+      .post('/api/v1/users')
       .send({
         realName: '张三',
         enrollmentYear: 2061,
@@ -36,7 +36,7 @@ describe('token管理', () => {
   it('请求单一User', () => {
     app.mockCsrf();
     return app.httpRequest()
-      .get('/api/users/s45s')
+      .get('/api/v1/users/s45s')
       .expect(200);
   });
 });
