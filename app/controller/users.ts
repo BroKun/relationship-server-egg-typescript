@@ -1,5 +1,4 @@
 import { Controller } from 'egg';
-import ErrorRes from '../common/error';
 const userValidationRule = {
   realName: 'string',
   enrollmentYear: {
@@ -21,7 +20,7 @@ export default class User extends Controller {
       ctx.body = user;
       return;
     }
-    throw new ErrorRes(422, '仅允许依赖单个id查找');
+    ctx.throw(422, '仅允许依赖单个id查找');
   }
 
   public async create() {
