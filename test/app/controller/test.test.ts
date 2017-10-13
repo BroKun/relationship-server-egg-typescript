@@ -34,7 +34,6 @@ describe('测试模块', () => {
       });
   });
   it('test post请求', () => {
-    app.mockCsrf();
     return app.httpRequest()
       .post('/api/v1/test')
       .send({ content: 'test' })
@@ -45,7 +44,6 @@ describe('测试模块', () => {
       });
   });
   it('test put请求', () => {
-    app.mockCsrf();
     return app.httpRequest()
       .put('/api/v1/test/123')
       .expect(204);
