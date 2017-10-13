@@ -38,6 +38,7 @@
     ],
     "align": [true, "statements"],
     "no-shadowed-variable": false,
+    "only-arrow-functions": false,
     "no-this-assignment":false,
     "no-submodule-imports":false,
     "no-string-literal":false
