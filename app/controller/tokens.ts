@@ -1,4 +1,4 @@
-import { Controller, ProdConfig } from 'egg';
+import { Controller, DefaultConfig } from 'egg';
 import * as jwt from 'jsonwebtoken';
 import * as moment from 'moment';
 
@@ -16,7 +16,7 @@ export default class Token extends Controller {
     const wxRes = await ctx.service.wechat.jscode2session(ctx.request.body['code']);
     if ((wxRes as WX.Error).errcode) { ctx.throw(422, {errors: wxRes}); }
     const exp: number = moment().add(30, 'days').unix();
-    const token: string = jwt.sign({ ...wxRes, exp }, (config as ProdConfig).jwt.secret);
+    const token: string = jwt.sign({ ...wxRes, exp }, (config as DefaultConfig).jwt.secret);
     const res: SessionInfo = {
       token,
       openid: (wxRes as WX.Session).openid,

@@ -20,6 +20,12 @@ export interface Default {
       enable: boolean;
     },
   };
+  jwt: {
+    secret: string;
+    key: string;
+    passthrough: boolean;
+    ignore?: any;
+  };
 }
 
 export default (appInfo: EggAppConfig): Default => {
@@ -38,6 +44,11 @@ export default (appInfo: EggAppConfig): Default => {
       csrf: {
         enable: false,
       },
+    },
+    jwt: {
+      secret: 'escape master',
+      key: 'user',
+      passthrough: true,
     },
   };
 };
