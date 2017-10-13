@@ -1,11 +1,18 @@
+import Apprentices from './apprentices';
+import Masters from './masters';
+import Starring from './starring';
+import Teaching from './teaching';
 import Test from './test';
-import User from './user';
-import Token from './token';
+import Tokens from './tokens';
+import Users from './users';
 
 declare module 'egg' {
   export interface IController {
-    test: Test,
-    user: User,
-    token: Token,
+    apprentices: Apprentices,
+    masters: Masters,
+    starring: Starring,
+    teaching: Teaching,
+    tokens: Tokens,
+    users: Users,
   }
 }

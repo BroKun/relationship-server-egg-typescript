@@ -7,7 +7,7 @@ interface SessionInfo {
   unionid: string;
   token?: string;
 }
-export default class Token extends Controller {
+export default class Tokens extends Controller {
   /**
    * 登录获取openid,unionid与token
    */
