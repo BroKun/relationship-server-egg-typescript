@@ -36,7 +36,7 @@ describe('token管理', () => {
   it('请求单一User', () => {
     app.mockCsrf();
     return app.httpRequest()
-      .get('/api/v1/users/s45s')
+      .get('/api/v1/users/59c872ee9639dd1078ceb19e')
       .expect(200);
   });
 });

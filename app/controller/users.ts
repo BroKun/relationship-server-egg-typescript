@@ -13,23 +13,25 @@ function isString(x: any): x is string {
   return typeof x === 'string';
 }
 export default class User extends Controller {
+  /**
+   * 获取用户信息
+   * GET /users/:userid
+   */
   public async show() {
     const { ctx } = this;
     if (isString(ctx.params.id)) {
-      const user = await ctx.model.User.find({ _id: '59c872ee9639dd1078ceb19e' });
+      const user = await ctx.model.User.find({ _id: ctx.params.id });
       ctx.body = user;
       return;
     }
-    ctx.throw(422, '仅允许依赖单个id查找');
+    ctx.throw(400, { errors: { id: ctx.params.id } });
   }
 
   public async create() {
     const { ctx } = this;
     const invalid = this.app.validator.validate(userValidationRule, ctx.request.body);
     if (invalid) {
-      ctx.body = invalid;
-      ctx.status = 400;
-      return;
+      ctx.throw(400, { errors: invalid });
     }
     const user = new ctx.model.User(ctx.request.body);
     const savedUser = await user.save();
