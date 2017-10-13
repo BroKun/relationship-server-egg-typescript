@@ -1,4 +1,6 @@
 import { Controller } from 'egg';
+import authorized from '../utils/authorized';
+
 const userValidationRule = {
   realName: 'string',
   enrollmentYear: {
@@ -27,6 +29,7 @@ export default class User extends Controller {
     ctx.throw(400, { errors: { id: ctx.params.id } });
   }
 
+  @authorized
   public async create() {
     const { ctx } = this;
     const invalid = this.app.validator.validate(userValidationRule, ctx.request.body);
