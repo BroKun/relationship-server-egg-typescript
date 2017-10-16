@@ -1,15 +1,35 @@
 import { Controller } from 'egg';
 import authorized from '../utils/authorized';
 
+/**
+ * 用户信息校验
+ */
 const userValidationRule = {
+  openId: 'string',
+  unionId: {
+    type: 'string',
+    required: 'false',
+  },
   realName: 'string',
+  nickName: 'string',
   enrollmentYear: {
     type: 'int',
     min: 1990,
     max: 2050,
     required: 'false',
   },
-  openId: 'string',
+  major: {
+    type: 'string',
+    required: 'false',
+  },
+  bio: {
+    type: 'string',
+    required: 'false',
+  },
+  avatar: {
+    type: 'string',
+    required: 'false',
+  },
 };
 function isString(x: any): x is string {
   return typeof x === 'string';
@@ -58,7 +78,7 @@ export default class Users extends Controller {
 
   /**
    * 列举用户信息
-   * GET /users{?page,per_page,order,sort}
+   * GET /users{?page,per_page,order,sort,member,enrollmentYear}
    */
   public async index() {
     const { ctx } = this;
