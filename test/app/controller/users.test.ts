@@ -17,6 +17,7 @@ describe('token管理', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         realName: '张三',
+        nickName: '阿三',
         enrollmentYear: 2001,
         openId: '11111',
       })
@@ -28,6 +29,7 @@ describe('token管理', () => {
       .post('/api/v1/users')
       .send({
         realName: '张三',
+        nickName: '阿三',
         enrollmentYear: 2001,
         openId: '11111',
       })
@@ -40,6 +42,7 @@ describe('token管理', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         realName: '张三',
+        nickName: '阿三',
         enrollmentYear: 2061,
         openId: '11111',
       })
