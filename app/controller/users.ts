@@ -10,8 +10,13 @@ const userValidationRule = {
     type: 'string',
     required: 'false',
   },
-  realName: 'string',
-  nickName: 'string',
+  realName: {
+    type: 'string',
+    required: 'false',
+  },
+  nickName: {
+    type: 'string',
+  },
   enrollmentYear: {
     type: 'int',
     min: 1990,
@@ -59,7 +64,7 @@ export default class Users extends Controller {
   public async show() {
     const { ctx } = this;
     if (isString(ctx.params.id)) {
-      const user = await ctx.model.User.find({ _id: ctx.params.id });
+      const user = await ctx.model.User.findOne({ _id: ctx.params.id });
       ctx.body = user;
       return;
     }
@@ -78,7 +83,7 @@ export default class Users extends Controller {
 
   /**
    * 列举用户信息
-   * GET /users{?page,per_page,order,sort,member,enrollmentYear}
+   * GET /users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
    */
   public async index() {
     const { ctx } = this;

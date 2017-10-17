@@ -1,78 +1,8 @@
 import { Application } from 'egg';
-import { Document, Model, Schema } from 'mongoose';
+import { Model } from 'mongoose';
+import { IUserBase, schemaUserBase } from '../common/model';
 
-/**
- * 关联用户模型
- */
-interface IRelationUser {
-  /**
-   * 用户Id
-   */
-  userId: string;
-  /**
-   * openId,来自微信
-   */
-  openId: string;
-  /**
-   * 真实姓名
-   */
-  realName: string;
-  /**
-   * 昵称
-   */
-  nickName: string;
-  /**
-   * 关系生效的时间
-   */
-  relationTime: Date;
-}
-
-/**
- * 关联用户模型
- */
-const relationUser = {
-  type: {
-    userId: {
-      type: Schema.Types.ObjectId,
-      required: true,
-    },
-    openId: {
-      type: String,
-      required: true,
-    },
-    realName: {
-      type: String,
-      required: true,
-    },
-    nickName: {
-      type: String,
-      required: true,
-    },
-    relationTime: {
-      type: Date,
-      required: true,
-      default: Date.now,
-    },
-  },
-  required: false,
-};
-export interface IUser extends Document {
-  /**
-   * openId,来自微信
-   */
-  openId: string;
-  /**
-   * unionId,来自微信
-   */
-  unioId?: string;
-  /**
-   * 真实姓名
-   */
-  realName: string;
-  /**
-   * 昵称
-   */
-  nickName: string;
+export interface IUser extends IUserBase {
   /**
    * 入学年份
    */
@@ -86,29 +16,17 @@ export interface IUser extends Document {
    */
   bio?: string;
   /**
-   * 头像
-   */
-  avatar?: string;
-  /**
    * 正式成员
    */
   member: boolean;
   /**
    * 师傅
    */
-  masters?: IRelationUser;
+  masters?: IUserBase;
   /**
    * 徒弟
    */
-  apprentices?: [IRelationUser];
-  /**
-   * 赞过的谁
-   */
-  starred?: [IRelationUser];
-  /**
-   * 被谁赞过
-   */
-  stargazers?: [IRelationUser];
+  apprentices?: [IUserBase];
   /**
    * 创建时间
    */
@@ -126,26 +44,7 @@ export default (app: Application): Model<IUser> => {
   const mongoose = app.mongoose;
 
   const userSchema = new mongoose.Schema({
-    openId: {
-      type: String,
-      required: true,
-      index: true,
-    },
-    unioId: {
-      type: String,
-      required: false,
-      index: true,
-    },
-    realName: {
-      type: String,
-      required: true,
-      index: true,
-    },
-    nickName: {
-      type: String,
-      required: true,
-      index: true,
-    },
+    ...schemaUserBase,
     enrollmentYear: {
       type: Number,
       required: false,
@@ -158,19 +57,13 @@ export default (app: Application): Model<IUser> => {
       type: String,
       required: false,
     },
-    avatar: {
-      type: String,
-      required: false,
-    },
     member: {
       type: Boolean,
       required: true,
       default: false,
     },
-    masters: relationUser,
-    apprentices: [relationUser],
-    starred: [relationUser],
-    stargazers: [relationUser],
+    masters: schemaUserBase,
+    apprentices: [schemaUserBase],
     createAt: {
       type: Date,
       required: true,
