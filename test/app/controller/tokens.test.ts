@@ -11,14 +11,12 @@ describe('token管理', () => {
   afterEach(mm.restore);
 
   it('真实请求,创建token,无效的Code', () => {
-    app.mockCsrf();
     return app.httpRequest()
       .post('/api/v1/tokens')
       .send({ code: 1111 })
       .expect(422);
   });
   it('成功创建token', () => {
-    app.mockCsrf();
     app.mockService('wechat', 'jscode2session', async () => {
       return {
         openid: '1111',
@@ -33,7 +31,6 @@ describe('token管理', () => {
   });
 
   it('创建token失败,微信API错误', () => {
-    app.mockCsrf();
     app.mockService('wechat', 'jscode2session', async () => {
       return {
         errcode: 400000,
