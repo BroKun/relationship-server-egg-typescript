@@ -29,6 +29,7 @@ export interface IUserBase extends Document {
 export const schemaUserBase = {
   _id: {
     type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
     index: true,
   },

@@ -85,6 +85,7 @@ export default (app: Application): Model<IUser> => {
     },
     masters: {
       type: Schema.Types.ObjectId,
+      ref: 'User',
       required: false,
     },
     apprentices: [schemaUserBase],
