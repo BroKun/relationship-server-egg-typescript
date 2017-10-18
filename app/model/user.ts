@@ -1,5 +1,5 @@
 import { Application } from 'egg';
-import { Model } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 import { IUserBase, schemaUserBase } from '../common/model';
 
 export interface IUser extends IUserBase {
@@ -44,33 +44,57 @@ export default (app: Application): Model<IUser> => {
   const mongoose = app.mongoose;
 
   const userSchema = new mongoose.Schema({
-    ...schemaUserBase,
+    openId: {
+      type: Schema.Types.String,
+      required: true,
+      index: true,
+    },
+    unioId: {
+      type: Schema.Types.String,
+      required: false,
+    },
+    realName: {
+      type: Schema.Types.String,
+      required: false,
+    },
+    nickName: {
+      type: Schema.Types.String,
+      required: true,
+      index: true,
+    },
+    avatar: {
+      type: Schema.Types.String,
+      required: false,
+    },
     enrollmentYear: {
-      type: Number,
+      type: Schema.Types.Number,
       required: false,
     },
     major: {
-      type: String,
+      type: Schema.Types.String,
       required: false,
     },
     bio: {
-      type: String,
+      type: Schema.Types.String,
       required: false,
     },
     member: {
-      type: Boolean,
+      type: Schema.Types.String,
       required: true,
       default: false,
     },
-    masters: schemaUserBase,
+    masters: {
+      type: Schema.Types.ObjectId,
+      required: false,
+    },
     apprentices: [schemaUserBase],
     createAt: {
-      type: Date,
+      type: Schema.Types.Date,
       required: true,
       default: Date.now,
     },
     updateAt: {
-      type: Date,
+      type: Schema.Types.Date,
       required: true,
       default: Date.now,
     },

@@ -33,25 +33,25 @@ export const schemaUserBase = {
     index: true,
   },
   openId: {
-    type: String,
+    type: Schema.Types.String,
     required: true,
     index: true,
   },
   unioId: {
-    type: String,
+    type: Schema.Types.String,
     required: false,
   },
   realName: {
-    type: String,
+    type: Schema.Types.String,
     required: false,
   },
   nickName: {
-    type: String,
+    type: Schema.Types.String,
     required: true,
     index: true,
   },
   avatar: {
-    type: String,
+    type: Schema.Types.String,
     required: false,
   },
 };
