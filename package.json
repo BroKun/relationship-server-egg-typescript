@@ -46,7 +46,7 @@
     "tsc:w": "tsc -p tsconfig.json -w",
     "dev": "egg-bin dev",
     "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test",
+    "test-local": "egg-bin test --full-trace",
     "cov": "egg-bin cov",
     "lint": "tslint -c tslint.json .",
     "ci": "npm run lint && npm run cov",
