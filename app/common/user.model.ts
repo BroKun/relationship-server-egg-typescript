@@ -64,9 +64,9 @@ export interface IUser extends IUserBase {
   /**
    * 创建时间
    */
-  createAt: Date;
+  createAt?: Date;
   /**
    * 修改时间
    */
-  updateAt: Date;
+  updateAt?: Date;
 }
