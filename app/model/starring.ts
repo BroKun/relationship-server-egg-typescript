@@ -45,7 +45,7 @@ export default (app: Application): Model<IStarring> => {
     },
     starred: schemaUserBase,
     createAt: {
-      type: Date,
+      type: Schema.Types.Date,
       required: true,
       default: Date.now,
     },

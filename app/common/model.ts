@@ -29,29 +29,30 @@ export interface IUserBase extends Document {
 export const schemaUserBase = {
   _id: {
     type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
     index: true,
   },
   openId: {
-    type: String,
+    type: Schema.Types.String,
     required: true,
     index: true,
   },
   unioId: {
-    type: String,
+    type: Schema.Types.String,
     required: false,
   },
   realName: {
-    type: String,
+    type: Schema.Types.String,
     required: false,
   },
   nickName: {
-    type: String,
+    type: Schema.Types.String,
     required: true,
     index: true,
   },
   avatar: {
-    type: String,
+    type: Schema.Types.String,
     required: false,
   },
 };

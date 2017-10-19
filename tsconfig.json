@@ -21,6 +21,7 @@
     "importHelpers": true
   },
   "include": [
+    "app.ts",
     "app/**/*",
     "config/**/*",
     "test/**/*.ts"

@@ -41,12 +41,12 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "clean": "rimraf app/**/*.{js,map} test/**/*.{js,map} config/**/*.{js,map}",
+    "clean": "rimraf app.js app/**/*.{js,map} test/**/*.{js,map} config/**/*.{js,map}",
     "tsc": "tsc -p tsconfig.json",
     "tsc:w": "tsc -p tsconfig.json -w",
     "dev": "egg-bin dev",
     "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test",
+    "test-local": "egg-bin test --full-trace",
     "cov": "egg-bin cov",
     "lint": "tslint -c tslint.json .",
     "ci": "npm run lint && npm run cov",

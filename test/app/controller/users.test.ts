@@ -1,6 +1,6 @@
 import * as mm from 'egg-mock';
 import tokenGen from '../../utils/token';
-describe('token管理', () => {
+describe('User管理', () => {
   const app = mm.app();
 
   let token: string = '';
@@ -55,5 +55,15 @@ describe('token管理', () => {
     return app.httpRequest()
       .get('/api/v1/users/59c872ee9639dd1078ceb19e')
       .expect(200);
+  });
+  it('格式错误的UserId', () => {
+    return app.httpRequest()
+      .get('/api/v1/users/123456')
+      .expect(400);
+  });
+  it('请求不存在的User', () => {
+    return app.httpRequest()
+      .get('/api/v1/users/111111111111111111111111')
+      .expect(404);
   });
 });

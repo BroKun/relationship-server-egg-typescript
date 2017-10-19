@@ -8,11 +8,11 @@ const userValidationRule = {
   openId: 'string',
   unionId: {
     type: 'string',
-    required: 'false',
+    required: false,
   },
   realName: {
     type: 'string',
-    required: 'false',
+    required: false,
   },
   nickName: {
     type: 'string',
@@ -21,24 +21,21 @@ const userValidationRule = {
     type: 'int',
     min: 1990,
     max: 2050,
-    required: 'false',
+    required: false,
   },
   major: {
     type: 'string',
-    required: 'false',
+    required: false,
   },
   bio: {
     type: 'string',
-    required: 'false',
+    required: false,
   },
   avatar: {
     type: 'string',
-    required: 'false',
+    required: false,
   },
 };
-function isString(x: any): x is string {
-  return typeof x === 'string';
-}
 export default class Users extends Controller {
   /**
    * 创建新用户
@@ -49,7 +46,7 @@ export default class Users extends Controller {
     const { ctx } = this;
     const invalid = this.app.validator.validate(userValidationRule, ctx.request.body);
     if (invalid) {
-      ctx.throw(400, { errors: invalid });
+      ctx.throw(400);
     }
     const user = new ctx.model.User(ctx.request.body);
     const savedUser = await user.save();
@@ -63,12 +60,15 @@ export default class Users extends Controller {
    */
   public async show() {
     const { ctx } = this;
-    if (isString(ctx.params.id)) {
-      const user = await ctx.model.User.findOne({ _id: ctx.params.id });
-      ctx.body = user;
-      return;
+    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    if (invalid) {
+      ctx.throw(400);
     }
-    ctx.throw(400, { errors: { id: ctx.params.id } });
+    const user = await ctx.model.User.findOne({ _id: ctx.params.id });
+    if (!user) {
+      ctx.throw(404);
+    }
+    ctx.body = user;
   }
 
   /**
