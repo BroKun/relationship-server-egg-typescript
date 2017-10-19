@@ -1,29 +1,6 @@
 import { Application } from 'egg';
-import { Document, Model, Schema } from 'mongoose';
-import { IUserBase, schemaUserBase } from '../common/model';
-
-export interface IStarring extends Document {
-  /**
-   * 点赞的者
-   */
-  stargazerId: string;
-  /**
-   * 点赞者的信息
-   */
-  stargazer: IUserBase;
-  /**
-   * 被赞者
-   */
-  starredId: string;
-  /**
-   * 被赞者的信息
-   */
-  starred: IUserBase;
-  /**
-   * 创建时间
-   */
-  createAt: Date;
-}
+import { Model, Schema } from 'mongoose';
+import { IStarring } from '../common/starring.model';
 
 /**
  * 点赞模型
@@ -32,23 +9,19 @@ export default (app: Application): Model<IStarring> => {
   const mongoose = app.mongoose;
 
   const starringSchema = new mongoose.Schema({
-    stargazerId: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      index: true,
-    },
-    stargazer: schemaUserBase,
-    starredId: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      index: true,
-    },
-    starred: schemaUserBase,
-    createAt: {
-      type: Schema.Types.Date,
-      required: true,
-      default: Date.now,
-    },
+    stargazer: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+    stargazerOpenId: { type: Schema.Types.String },
+    stargazerRealName: { type: Schema.Types.String },
+    stargazerNickName: { type: Schema.Types.String },
+    stargazerAvatar: { type: Schema.Types.String },
+    starred: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+    starredOpenId: { type: Schema.Types.String },
+    starredRealName: { type: Schema.Types.String },
+    starredNickName: { type: Schema.Types.String },
+    starredAvatar: { type: Schema.Types.String },
+    createAt: { type: Schema.Types.Date, default: Date.now },
   });
+  starringSchema.index({ stargazer: 1, starred: 1 });
+
   return mongoose.model<IStarring>('Starring', starringSchema);
 };
