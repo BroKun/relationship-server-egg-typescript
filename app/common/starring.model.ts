@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 
 export interface IStarring extends Document {
   /**
-   * 点赞的者
+   * 点赞者
    */
   stargazer: string;
   stargazerOpenId: string;
