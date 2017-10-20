@@ -1,6 +1,6 @@
 import { Application } from 'egg';
 import { Model, Schema } from 'mongoose';
-import { IUser, userBaseSchema } from '../common/user.model';
+import { IUser, userBaseSchema } from '../common/users.model';
 
 /**
  * 用户模型
