@@ -20,8 +20,8 @@ module.exports = (app: Application) => {
    * DELETE /users/teaching/:userid
    * GET /user/:master/teaching/:apprentices
    */
-  app.post('teaching_create', '/api/v1/users/teaching/:userid', 'teaching.create');
-  app.delete('teaching_delete', '/api/v1/users/teaching/:userid', 'teaching.destroy');
+  app.post('teaching_create', '/api/v1/users/teaching/:id', 'teaching.create');
+  app.delete('teaching_delete', '/api/v1/users/teaching/:id', 'teaching.destroy');
   app.get('teaching_check', '/user/:master/teaching/:apprentices', 'teaching.check');
 
   /**
@@ -32,20 +32,20 @@ module.exports = (app: Application) => {
    * GET /user/:userid/starred?{page,per_page,order,sort}
    * GET /user/:userid/stargazers?{page,per_page,order,sort}
    */
-  app.post('starred_create', '/users/starred/:userid', 'starring.create');
-  app.delete('starred_delete', '/users/starred/:userid', 'starring.destroy');
-  app.get('starred_check', '/user/:userid/starred/:otheruser', 'starring.check');
-  app.get('starred_index', '/user/:userid/starred?{page,per_page,order,sort}', 'starring.show');
-  app.get('stargazers', '/user/:userid/stargazers?{page,per_page,order,sort}', 'starring.stargazers');
+  app.post('starred_create', '/users/starred/:id', 'starring.create');
+  app.delete('starred_delete', '/users/starred/:id', 'starring.destroy');
+  app.get('starred_check', '/user/:stargazer/starred/:starred', 'starring.check');
+  app.get('starred_index', '/user/:id/starred?{page,per_page,order,sort}', 'starring.show');
+  app.get('stargazers', '/user/:id/stargazers?{page,per_page,order,sort}', 'starring.stargazers');
 
   /**
    * apprentices
    * GET /user/:userid/apprentices
    */
-  app.get('apprentices_index', '/user/:userid/apprentices', 'apprentices.index');
+  app.get('apprentices_index', '/user/:id/apprentices', 'apprentices.index');
   /**
    * masters
    * GET /user/:userid/masters
    */
-  app.get('masters_index', '/user/:userid/masters', 'masters.index');
+  app.get('masters_index', '/user/:id/masters', 'masters.index');
 };
