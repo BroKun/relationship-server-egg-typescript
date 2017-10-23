@@ -55,9 +55,10 @@ export interface IUser extends IUserBase {
    */
   bio?: string;
   /**
-   * 正式成员
+   * 成员类型
+   * 0: 游客 1：正式成员 10：超管
    */
-  member: boolean;
+  type: number;
   /**
    * 师傅
    */

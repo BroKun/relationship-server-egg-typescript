@@ -18,7 +18,7 @@ export default (app: Application): Model<IUser> => {
     enrollmentYear: { type: Schema.Types.Number },
     major: { type: Schema.Types.String },
     bio: { type: Schema.Types.String },
-    member: { type: Schema.Types.String, default: false },
+    type: { type: Schema.Types.Number, default: 0 },
     masters: { type: Schema.Types.ObjectId, ref: 'User' },
     apprentices: [userBaseSchema],
     createAt: { type: Schema.Types.Date, default: Date.now },
