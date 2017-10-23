@@ -1,6 +1,5 @@
 import { DefaultConfig, Service } from 'egg';
 import * as queryString from 'querystring';
-// import { WXError, WXSessionRes } from 'Wechat';
 import constant from '../utils/constant';
 import { https, ReqOps } from '../utils/httpUtil';
 
