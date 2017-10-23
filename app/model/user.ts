@@ -14,6 +14,7 @@ export default (app: Application): Model<IUser> => {
     realName: { type: Schema.Types.String },
     nickName: { type: Schema.Types.String },
     avatar: { type: Schema.Types.String },
+    gender: { type: Schema.Types.Number },
     enrollmentYear: { type: Schema.Types.Number },
     major: { type: Schema.Types.String },
     bio: { type: Schema.Types.String },
