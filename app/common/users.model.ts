@@ -20,20 +20,20 @@ export interface IUserBase extends Document {
   /**
    * 昵称
    */
-  nickName: string;
+  nickName?: string;
   /**
    * 头像
    */
-  avatar: string;
+  avatar?: string;
 }
 
 export const userBaseSchema = {
   _id: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   openId: { type: Schema.Types.String, required: true, index: true },
-  unionId: { type: Schema.Types.String, required: false },
-  realName: { type: Schema.Types.String, required: false },
-  nickName: { type: Schema.Types.String, required: true, index: true },
-  avatar: { type: Schema.Types.String, required: false },
+  unionId: { type: Schema.Types.String },
+  realName: { type: Schema.Types.String },
+  nickName: { type: Schema.Types.String, index: true },
+  avatar: { type: Schema.Types.String },
 };
 
 export interface IUser extends IUserBase {
@@ -45,7 +45,7 @@ export interface IUser extends IUserBase {
    * 性别
    * 0：未知、1：男、2：女
    */
-  gender: number;
+  gender?: number;
   /**
    * 专业
    */
