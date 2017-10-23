@@ -1,5 +1,5 @@
 import { Controller, DefaultConfig } from 'egg';
-import { IUser } from '../common/user.model';
+import { IUser } from '../common/users.model';
 import authorized from '../utils/authorized';
 
 function isSigned(user: IUser | object): user is IUser {
