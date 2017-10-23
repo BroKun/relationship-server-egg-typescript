@@ -12,7 +12,7 @@ export default (app: Application): Model<IUser> => {
     openId: { type: Schema.Types.String, required: true },
     unionId: { type: Schema.Types.String },
     realName: { type: Schema.Types.String },
-    nickName: { type: Schema.Types.String, required: true },
+    nickName: { type: Schema.Types.String },
     avatar: { type: Schema.Types.String },
     enrollmentYear: { type: Schema.Types.Number },
     major: { type: Schema.Types.String },
@@ -23,8 +23,8 @@ export default (app: Application): Model<IUser> => {
     createAt: { type: Schema.Types.Date, default: Date.now },
     updateAt: { type: Schema.Types.Date, default: Date.now },
   });
-  userSchema.index({ openId: 1, unionId: 1 }, { unique: true });
-  userSchema.index({ nickName: 1 }, { unique: true });
+  userSchema.index({ openId: 1 }, { unique: true });
+  userSchema.index({ nickName: 1, unionId: 1});
   userSchema.pre('save', function (next) {
     const now = new Date();
     this.updateAt = now;
