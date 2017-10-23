@@ -42,6 +42,11 @@ export interface IUser extends IUserBase {
    */
   enrollmentYear?: number;
   /**
+   * 性别
+   * 0：未知、1：男、2：女
+   */
+  gender: number;
+  /**
    * 专业
    */
   major?: string;
