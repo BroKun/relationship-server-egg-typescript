@@ -1,4 +1,4 @@
-import { Document, Schema } from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface IUserBase extends Document {
   /**
@@ -9,6 +9,9 @@ export interface IUserBase extends Document {
    * openId,来自微信
    */
   openId: string;
+}
+
+export interface IUser extends IUserBase {
   /**
    * unionId,来自微信
    */
@@ -25,18 +28,6 @@ export interface IUserBase extends Document {
    * 头像
    */
   avatar?: string;
-}
-
-export const userBaseSchema = {
-  _id: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-  openId: { type: Schema.Types.String, required: true, index: true },
-  unionId: { type: Schema.Types.String },
-  realName: { type: Schema.Types.String },
-  nickName: { type: Schema.Types.String, index: true },
-  avatar: { type: Schema.Types.String },
-};
-
-export interface IUser extends IUserBase {
   /**
    * 入学年份
    */
@@ -62,11 +53,20 @@ export interface IUser extends IUserBase {
   /**
    * 师傅
    */
-  masters?: IUserBase;
+  masters?: string;
   /**
    * 徒弟
    */
-  apprentices?: [IUserBase];
+  apprentices?: [{
+    /**
+     * 徒弟的id
+     */
+    _id: string;
+    /**
+     * 是否是正式的徒弟
+     */
+    state?: boolean;
+  }];
   /**
    * 创建时间
    */
