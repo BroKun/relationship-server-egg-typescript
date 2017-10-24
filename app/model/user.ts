@@ -13,6 +13,7 @@ export default (app: Application): Model<IUser> => {
     unionId: { type: Schema.Types.String },
     realName: { type: Schema.Types.String },
     nickName: { type: Schema.Types.String },
+    location: { type: Schema.Types.String },
     avatar: { type: Schema.Types.String },
     gender: { type: Schema.Types.Number },
     enrollmentYear: { type: Schema.Types.Number },
@@ -20,10 +21,8 @@ export default (app: Application): Model<IUser> => {
     bio: { type: Schema.Types.String },
     type: { type: Schema.Types.Number, default: 0 },
     masters: { type: Schema.Types.ObjectId, ref: 'User' },
-    apprentices: [{
-      _id: { type: Schema.Types.ObjectId, ref: 'User' },
-      state: { type: Schema.Types.Boolean, default: false },
-    }],
+    apprentices: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    unacceptedApprentices: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     createAt: { type: Schema.Types.Date, default: Date.now },
     updateAt: { type: Schema.Types.Date, default: Date.now },
   });

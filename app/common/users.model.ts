@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface IUserBase extends Document {
+export interface User {
   /**
    * 用户Id
    */
@@ -9,9 +9,6 @@ export interface IUserBase extends Document {
    * openId,来自微信
    */
   openId: string;
-}
-
-export interface IUser extends IUserBase {
   /**
    * unionId,来自微信
    */
@@ -24,6 +21,10 @@ export interface IUser extends IUserBase {
    * 昵称
    */
   nickName?: string;
+  /**
+   * 位置
+   */
+  location?: string;
   /**
    * 头像
    */
@@ -57,16 +58,11 @@ export interface IUser extends IUserBase {
   /**
    * 徒弟
    */
-  apprentices?: [{
-    /**
-     * 徒弟的id
-     */
-    _id: string;
-    /**
-     * 是否是正式的徒弟
-     */
-    state?: boolean;
-  }];
+  apprentices?: [string];
+  /**
+   * 未接纳的徒弟
+   */
+  unacceptedApprentices?: [string];
   /**
    * 创建时间
    */
@@ -76,3 +72,4 @@ export interface IUser extends IUserBase {
    */
   updateAt?: Date;
 }
+export type IUser = User & Document;
