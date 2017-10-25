@@ -32,7 +32,5 @@ export default (app: Application) => {
     this.updateAt = now;
     next();
   });
-  const c: Document & Relationship.User = JSON.parse('');
-  c.save();
   return mongoose.model<Document & Relationship.User>('User', userSchema);
 };
