@@ -6,7 +6,7 @@ export default class Users extends Controller {
    * 创建新用户
    * POST /users
    */
-  @authorized
+  @authorized()
   public async create() {
     const { ctx } = this;
     const invalid = this.app.validator.validate(userValidationRule, ctx.request.body);
@@ -40,7 +40,7 @@ export default class Users extends Controller {
    * 修改用户信息
    * PUT /users/:userid
    */
-  @authorized
+  @authorized()
   public async update() {
     const { ctx } = this;
     ctx.throw(422, 'Unimplemented');

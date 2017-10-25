@@ -41,3 +41,10 @@ export const userValidationRule = {
     required: false,
   },
 };
+
+export function isUser(user: Relationship.User): user is Relationship.User {
+  return user && ((user as Relationship.User)._id.length > 0) && ((user as Relationship.User).openId.length > 0);
+}
+export function isRegular(user: Relationship.User): user is Relationship.User {
+  return user && (user._id.length > 0) && (user.openId.length > 0) && (user.type >= 1);
+}

@@ -1,25 +1,16 @@
 import { Controller, DefaultConfig } from 'egg';
-import User = Relationship.User;
+import { isUser } from '../common/users.model';
 import authorized from '../utils/authorized';
-
-function isUser(user: User | object): user is User {
-  return user && ((user as User)._id.length > 0) && ((user as User).openId.length > 0);
-}
 
 export default class Starring extends Controller {
   /**
    * 点赞
    * POST /users/starred/:id
    */
-  @authorized
+  @authorized(isUser)
   public async create() {
     const { ctx, config } = this;
-    const key = (config as DefaultConfig).jwt.key;
-    const stargazer = ctx.state[key];
-    if (!isUser(stargazer)) {
-      ctx.throw(403, 'Sign Up First, Please');
-      return;
-    }
+    const stargazer = ctx.state[(config as DefaultConfig).jwt.key];
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
@@ -29,11 +20,11 @@ export default class Starring extends Controller {
       ctx.throw(404, 'User Not Found');
     }
     const starring = new ctx.model.Starring({
-      stargazer: stargazer._id,
-      stargazerOpenId: stargazer.openId,
-      stargazerRealName: stargazer.realName,
-      stargazerNickName: stargazer.nickName,
-      stargazerAvatar: stargazer.avatar,
+      stargazer: (stargazer as Relationship.User)._id,
+      stargazerOpenId: (stargazer as Relationship.User).openId,
+      stargazerRealName: (stargazer as Relationship.User).realName,
+      stargazerNickName: (stargazer as Relationship.User).nickName,
+      stargazerAvatar: (stargazer as Relationship.User).avatar,
       starred: starred._id,
       starredOpenId: starred.openId,
       starredRealName: starred.realName,
@@ -48,10 +39,12 @@ export default class Starring extends Controller {
    * 取消赞
    * DELETE /users/starred/:userid
    */
-  @authorized
+  @authorized(isUser)
   public async destroy() {
-    const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const { ctx, config } = this;
+    const user = ctx.state[(config as DefaultConfig).jwt.key];
+    await ctx.model.Starring.remove({ stargazer: (user as Relationship.User)._id, starred: ctx.params.id });
+    ctx.status = 204;
   }
   /**
    * 验证点赞关系
