@@ -12,7 +12,7 @@ export default (app: Application) => {
     unionId: { type: Schema.Types.String },
     realName: { type: Schema.Types.String },
     nickName: { type: Schema.Types.String },
-    location: { type: Schema.Types.String },
+    geoPosition: { type: Schema.Types.String },
     avatar: { type: Schema.Types.String },
     gender: { type: Schema.Types.Number },
     enrollmentYear: { type: Schema.Types.Number },
