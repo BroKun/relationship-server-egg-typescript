@@ -1,6 +1,6 @@
 import { Controller, DefaultConfig } from 'egg';
 import * as jwt from 'jsonwebtoken';
-import { SignOptionsImpl } from '../common/tokens.model';
+import { SignOptions } from '../common/tokens.model';
 import { isError } from '../common/wechat.model';
 export default class Tokens extends Controller {
   /**
@@ -17,7 +17,7 @@ export default class Tokens extends Controller {
     if (!user) {
       ctx.throw(403, 'User Not Found');
     }
-    const options = new SignOptionsImpl();
+    const options = new SignOptions();
     options.audience = user._id;
     const token = jwt.sign({ ...user, ...wxRes }, (config as DefaultConfig).jwt.secret, options);
     const res = {
