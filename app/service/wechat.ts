@@ -1,7 +1,5 @@
 import { DefaultConfig, Service } from 'egg';
-import * as queryString from 'querystring';
 import constant from '../utils/constant';
-import { https, ReqOps } from '../utils/httpUtil';
 
 /**
  * 微信服务
@@ -13,16 +11,18 @@ export default class Wechat extends Service {
    * @param code 从微信环境获取的编码字符串
    */
   public async jscode2session(code: string): Promise<WX.Session | WX.Error> {
-    const { config } = this;
+    const { config, ctx } = this;
     const params = {
       appid: (config as DefaultConfig).wxapp.AppID,
       secret: (config as DefaultConfig).wxapp.AppSecret,
       js_code: code,
       grant_type: 'authorization_code',
     };
-    const ops = new ReqOps(
-      constant.jscode2session.hostname,
-      `${constant.jscode2session.path}?${queryString.stringify(params)}`);
-    return JSON.parse(await https(ops));
+    const result = await ctx.curl(constant.jscode2session, {
+      method: 'GET',
+      dataType: 'json',
+      data: params,
+    });
+    return JSON.parse(result.data);
   }
 }
