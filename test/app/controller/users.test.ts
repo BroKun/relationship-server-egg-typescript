@@ -1,4 +1,5 @@
 import * as mm from 'egg-mock';
+import * as uuid from 'uuid';
 import tokenGen from '../../utils/token';
 describe('User管理', () => {
   const app = mm.app();
@@ -11,19 +12,24 @@ describe('User管理', () => {
 
   afterEach(mm.restore);
 
-  it('真实请求,创建User', () => {
+  it('成功创建User', () => {
     return app.httpRequest()
       .post('/api/v1/users')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        realName: '张三',
-        nickName: '阿三',
-        enrollmentYear: 2001,
-        openId: '11111',
+        openId: uuid.v1(),
       })
       .expect(201);
   });
-
+  it('重复的openId,无法创建新用户', () => {
+    return app.httpRequest()
+      .post('/api/v1/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        openId: '30624700',
+      })
+      .expect(500);
+  });
   it('未授权的请求', () => {
     return app.httpRequest()
       .post('/api/v1/users')
@@ -51,7 +57,7 @@ describe('User管理', () => {
 
   it('请求单一User', () => {
     return app.httpRequest()
-      .get('/api/v1/users/59c872ee9639dd1078ceb19e')
+      .get('/api/v1/users/59f09727fa451437706901db')
       .expect(200);
   });
   it('格式错误的UserId', () => {
