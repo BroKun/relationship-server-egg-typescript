@@ -1,11 +1,10 @@
 import { Application } from 'egg';
-import { Model, Schema } from 'mongoose';
-import { IUser } from '../common/users.model';
+import { Document, Schema } from 'mongoose';
 
 /**
  * 用户模型
  */
-export default (app: Application): Model<IUser> => {
+export default (app: Application) => {
   const mongoose = app.mongoose;
 
   const userSchema = new mongoose.Schema({
@@ -33,5 +32,7 @@ export default (app: Application): Model<IUser> => {
     this.updateAt = now;
     next();
   });
-  return mongoose.model<IUser>('User', userSchema);
+  const c: Document & Relationship.User = JSON.parse('');
+  c.save();
+  return mongoose.model<Document & Relationship.User>('User', userSchema);
 };

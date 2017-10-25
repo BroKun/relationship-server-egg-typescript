@@ -1,11 +1,10 @@
 import { Application } from 'egg';
-import { Model, Schema } from 'mongoose';
-import { IStarring } from '../common/starring.model';
+import { Document, Schema } from 'mongoose';
 
 /**
  * 点赞模型
  */
-export default (app: Application): Model<IStarring> => {
+export default (app: Application) => {
   const mongoose = app.mongoose;
 
   const starringSchema = new mongoose.Schema({
@@ -23,5 +22,5 @@ export default (app: Application): Model<IStarring> => {
   });
   starringSchema.index({ stargazer: 1, starred: 1 });
 
-  return mongoose.model<IStarring>('Starring', starringSchema);
+  return mongoose.model<Relationship.Starring & Document>('Starring', starringSchema);
 };

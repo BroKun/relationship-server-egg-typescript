@@ -1,5 +1,5 @@
 import { Controller, DefaultConfig } from 'egg';
-import { User } from '../common/users.model';
+import User = Relationship.User;
 import authorized from '../utils/authorized';
 
 function isUser(user: User | object): user is User {

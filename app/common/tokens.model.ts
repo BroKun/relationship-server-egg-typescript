@@ -1,33 +1,5 @@
-import { SignOptions } from 'jsonwebtoken';
-export interface ITokenBase {
-  /**
-   * 生成时间
-   */
-  iat: number;
-  /**
-   * 有效期至
-   */
-  exp?: number;
-  /**
-   * 开始生效
-   */
-  nbf?: number;
-  /**
-   * 接受者
-   */
-  aud?: string | number;
-  /**
-   * 主题
-   */
-  sub?: string | number;
-  /**
-   * 来源
-   */
-  iss?: string | number;
-}
-
-export type Token<T> = ITokenBase & T;
-export class SignOptionsImpl implements SignOptions {
+import { SignOptions as JWTSignOptions } from 'jsonwebtoken';
+export class SignOptions implements JWTSignOptions {
   /**
    * Signature algorithm. Could be one of these values :
    * - HS256:    HMAC using SHA-256 hash algorithm (default)
