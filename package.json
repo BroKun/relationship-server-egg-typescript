@@ -13,6 +13,7 @@
     "jsonwebtoken": "^8.1.0",
     "koa-jwt": "^3.2.2",
     "moment": "^2.19.1",
+    "mongoose": "^4.12.4",
     "source-map-support": "^0.5.0",
     "tslib": "^1.8.0",
     "typescript": "^2.5.3"
@@ -33,7 +34,8 @@
     "egg-mock": "^3.13.1",
     "eslint": "^4.9.0",
     "eslint-config-egg": "^5.1.1",
-    "tslint": "^5.8.0"
+    "tslint": "^5.8.0",
+    "uuid": "^3.1.0"
   },
   "engines": {
     "node": ">=8.0.0"

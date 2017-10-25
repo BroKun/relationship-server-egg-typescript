@@ -31,7 +31,8 @@ module.exports = {
     "egg-mock",
     "eslint",
     "eslint-config-egg",
-    "tslint"
+    "tslint",
+    "uuid"
   ],
   exclude: [
     './test/fixtures',
