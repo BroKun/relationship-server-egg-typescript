@@ -13,13 +13,13 @@ export default class Tokens extends Controller {
       ctx.throw(422, { errors: wxRes });
       return;
     }
-    const user = await ctx.model.User.findOne({ _id: ctx.params.id });
+    const user = await ctx.model.User.findOne({ openId: wxRes.openid });
     if (!user) {
       ctx.throw(403, 'User Not Found');
     }
-    const options = new SignOptions();
-    options.audience = user._id;
-    const token = jwt.sign({ ...user, ...wxRes }, (config as DefaultConfig).jwt.secret, options);
+    const options = SignOptions();
+    options.audience = user._id.toString();
+    const token = jwt.sign({ ...user, ...wxRes, openId: wxRes.openid }, (config as DefaultConfig).jwt.secret, options);
     const res = {
       token,
       openid: wxRes.openid,
