@@ -13,6 +13,7 @@ export const userValidationRule = {
   },
   nickName: {
     type: 'string',
+    required: false,
   },
   enrollmentYear: {
     type: 'int',
