@@ -4,19 +4,18 @@
   "description": "a Wechat mini-programs for dreamtecher",
   "private": true,
   "dependencies": {
-    "cross-env": "^5.0.5",
-    "egg": "^1.9.0",
-    "egg-mongoose": "^2.1.0",
-    "egg-scripts": "^1.1.2",
+    "cross-env": "^5.1.0",
+    "egg": "^1.10.0",
+    "egg-mongoose": "^2.1.1",
+    "egg-scripts": "^2.1.0",
     "egg-validate": "^1.0.0",
-    "js-yaml": "^3.9.1",
-    "jsonwebtoken": "^7.4.3",
+    "js-yaml": "^3.10.0",
+    "jsonwebtoken": "^8.1.0",
     "koa-jwt": "^3.2.2",
     "moment": "^2.19.1",
-    "source-map-support": "^0.4.18",
+    "source-map-support": "^0.5.0",
     "tslib": "^1.8.0",
-    "typescript": "^2.5.3",
-    "wechat-api": "^1.35.1"
+    "typescript": "^2.5.3"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^7.2.3",
@@ -28,14 +27,13 @@
     "@types/supertest": "^2.0.0",
     "autod": "^2.10.1",
     "autod-egg": "^1.0.0",
-    "coveralls": "^2.13.3",
+    "coveralls": "^3.0.0",
     "egg-bin": "^4.3.5",
-    "egg-ci": "^1.6.0",
-    "egg-mock": "^3.13.0",
-    "eslint": "^4.8.0",
+    "egg-ci": "^1.8.0",
+    "egg-mock": "^3.13.1",
+    "eslint": "^4.9.0",
     "eslint-config-egg": "^5.1.1",
-    "tslint": "^5.7.0",
-    "webstorm-disable-index": "^1.2.0"
+    "tslint": "^5.8.0"
   },
   "engines": {
     "node": ">=8.0.0"
