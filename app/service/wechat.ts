@@ -23,6 +23,6 @@ export default class Wechat extends Service {
       dataType: 'json',
       data: params,
     });
-    return JSON.parse(result.data);
+    return result;
   }
 }
