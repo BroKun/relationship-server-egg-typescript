@@ -1,5 +1,5 @@
-import { Controller } from 'egg';
-import {userValidationRule} from '../common/users.model';
+import { Controller, DefaultConfig } from 'egg';
+import { isRegular, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
 export default class Users extends Controller {
   /**
@@ -24,12 +24,16 @@ export default class Users extends Controller {
    * GET /users/:userid
    */
   public async show() {
-    const { app, ctx } = this;
+    const { app, ctx, config } = this;
     const invalid = app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
     }
-    const user = await ctx.model.User.findOne({ _id: ctx.params.id });
+    const tokenInfo: Relationship.Token<Relationship.User> = ctx.state[(config as DefaultConfig).jwt.key];
+    const isRegularUser = tokenInfo && (tokenInfo._id === ctx.params.id || isRegular(tokenInfo));
+    const user = await ctx.model.User
+      .findOne({ _id: ctx.params.id })
+      .select(isRegularUser ? userRegularSelect() : userBaseSelect());
     if (!user) {
       ctx.throw(404);
     }
