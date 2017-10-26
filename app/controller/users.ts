@@ -8,8 +8,8 @@ export default class Users extends Controller {
    */
   @authorized()
   public async create() {
-    const { ctx } = this;
-    const invalid = this.app.validator.validate(userValidationRule, ctx.request.body);
+    const { app, ctx } = this;
+    const invalid = app.validator.validate(userValidationRule, ctx.request.body);
     if (invalid) {
       ctx.throw(400);
     }
@@ -24,8 +24,8 @@ export default class Users extends Controller {
    * GET /users/:userid
    */
   public async show() {
-    const { ctx } = this;
-    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    const { app, ctx } = this;
+    const invalid = app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
     }
