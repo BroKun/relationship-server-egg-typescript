@@ -45,6 +45,10 @@ export default class Starring extends Controller {
    */
   public async check() {
     const { ctx } = this;
+    const idInvalid = this.app.validator.validate({ stargazer: 'ObjectId', starred: 'ObjectId' }, ctx.params);
+    if (idInvalid) {
+      ctx.throw(400);
+    }
     const starring = await ctx.model.Starring.findOne({ stargazer: ctx.params.stargazer, starred: ctx.params.starred });
     if (!starring) {
       ctx.throw(404);
@@ -66,11 +70,13 @@ export default class Starring extends Controller {
     const queries: Relationship.Query = queriesInvalid ? defaultQuery() : ctx.queries;
     listQuery = pagedQuery(listQuery, queries);
     const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
-    const userList = await listQuery.populate({
+    const starringList = await listQuery.populate({
       path: 'starred',
       select: isRegular(tokenInfo) ? userRegularSelect() : userBaseSelect(),
     });
-    ctx.body = userList;
+    ctx.body = starringList.map((element) => {
+      return element.starred;
+    });
     ctx.status = 200;
   }
   /**
@@ -88,11 +94,13 @@ export default class Starring extends Controller {
     const queries: Relationship.Query = queriesInvalid ? defaultQuery() : ctx.queries;
     listQuery = pagedQuery(listQuery, queries);
     const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
-    const userList = await listQuery.populate({
+    const starringList = await listQuery.populate({
       path: 'stargazer',
       select: isRegular(tokenInfo) ? userRegularSelect() : userBaseSelect(),
     });
-    ctx.body = userList;
+    ctx.body = starringList.map((element) => {
+      return element.stargazer;
+    });
     ctx.status = 200;
   }
 }
