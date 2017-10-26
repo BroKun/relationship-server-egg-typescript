@@ -117,5 +117,10 @@ declare namespace Relationship {
      */
     updateAt?: Date;
   }
-  // export type IUser = User & MongoDocument;
+  interface Query {
+    page?: number;
+    per_page?: number;
+    order?: string;
+    sort?: string;
+  }
 }
