@@ -1,5 +1,5 @@
 import { Controller, DefaultConfig } from 'egg';
-import { isRegular, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
+import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
 export default class Users extends Controller {
   /**
@@ -30,7 +30,7 @@ export default class Users extends Controller {
       ctx.throw(400);
     }
     const tokenInfo: Relationship.Token<Relationship.User> = ctx.state[(config as DefaultConfig).jwt.key];
-    const isRegularUser = tokenInfo && (tokenInfo._id === ctx.params.id || isRegular(tokenInfo));
+    const isRegularUser = isUser(tokenInfo) && (tokenInfo._id === ctx.params.id || isRegular(tokenInfo));
     const user = await ctx.model.User
       .findOne({ _id: ctx.params.id })
       .select(isRegularUser ? userRegularSelect() : userBaseSelect());
