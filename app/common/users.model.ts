@@ -49,3 +49,28 @@ export function isUser(user: Relationship.User): user is Relationship.User {
 export function isRegular(user: Relationship.User): user is Relationship.User {
   return user && (user._id.length > 0) && (user.openId.length > 0) && (user.type >= 1);
 }
+export const userBaseSelect = {
+  _id: 1,
+  openId: 1,
+  unionId: 1,
+  nickName: 1,
+  geoPosition: 1,
+  avatar: 1,
+  enrollmentYear: 1,
+  gender: 1,
+  bio: 1,
+};
+export const userRegularSelect = {
+  _id: 1,
+  openId: 1,
+  unionId: 1,
+  realName: 1,
+  nickName: 1,
+  geoPosition: 1,
+  avatar: 1,
+  enrollmentYear: 1,
+  gender: 1,
+  major: 1,
+  bio: 1,
+  type: 1,
+};
