@@ -24,12 +24,12 @@ describe('httpUtil工具测试', () => {
   it('test错误的http请求', async () => {
     const ops = new ReqOps(
       `jsonplaceholder.typicode.com`,
-      `/post`,
+      `/user`,
       `GET`,
       80,
       headers,
     );
-    const res = JSON.parse(await http(ops));
-    assert(JSON.stringify(res) === '{}');
+    const res = await http(ops);
+    assert(res === '{}');
   });
 });
