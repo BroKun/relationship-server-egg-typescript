@@ -13,7 +13,6 @@ describe('微信接口服务测试', () => {
   it('错误的请求', async () => {
     const ctx = app.mockContext();
     const res = await ctx.service.wechat.jscode2session('wrong code');
-    console.log(res);
     assert(res);
     assert((res as WX.Error).errcode);
   });
