@@ -36,12 +36,15 @@
       true,
       "allow-leading-underscore"
     ],
-    "align": [true, "statements"],
+    "align": [
+      true,
+      "statements"
+    ],
     "no-shadowed-variable": false,
     "only-arrow-functions": false,
-    "no-this-assignment":false,
-    "no-submodule-imports":false,
-    "no-string-literal":false
+    "no-this-assignment": false,
+    "no-submodule-imports": false,
+    "no-string-literal": false,
+    "no-implicit-dependencies": false
   }
 }
-

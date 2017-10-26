@@ -1,31 +1,35 @@
+import * as assert from 'assert';
 import * as mm from 'egg-mock';
+import * as uuid from 'uuid';
 import tokenGen from '../../utils/token';
 describe('User管理', () => {
   const app = mm.app();
 
-  let token: string = '';
-
   before(async () => {
     await app.ready();
-    token = tokenGen(app);
   });
   after(() => app.close());
 
   afterEach(mm.restore);
 
-  it('真实请求,创建User', () => {
+  it('成功创建User', () => {
     return app.httpRequest()
       .post('/api/v1/users')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({
-        realName: '张三',
-        nickName: '阿三',
-        enrollmentYear: 2001,
-        openId: '11111',
+        openId: uuid.v1(),
       })
       .expect(201);
   });
-
+  it('重复的openId,无法创建新用户', () => {
+    return app.httpRequest()
+      .post('/api/v1/users')
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .send({
+        openId: '30624700',
+      })
+      .expect(500);
+  });
   it('未授权的请求', () => {
     return app.httpRequest()
       .post('/api/v1/users')
@@ -41,7 +45,7 @@ describe('User管理', () => {
   it('数据验证失败', () => {
     return app.httpRequest()
       .post('/api/v1/users')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({
         realName: '张三',
         nickName: '阿三',
@@ -53,8 +57,45 @@ describe('User管理', () => {
 
   it('请求单一User', () => {
     return app.httpRequest()
-      .get('/api/v1/users/59c872ee9639dd1078ceb19e')
+      .get('/api/v1/users/59f09727fa451437706901db')
       .expect(200);
+  });
+  it('非正式成员不能获得完整用户信息', () => {
+    return app.httpRequest()
+      .get('/api/v1/users/59f1cd15c4ba889296e3b596')
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .expect(200)
+      .expect((res) => {
+        assert((res.body as Relationship.User).nickName);
+        assert(!(res.body as Relationship.User).realName);
+      });
+  });
+  it('非正式成员可以查询到自己的完整信息', () => {
+    return app.httpRequest()
+      .get('/api/v1/users/59f09727fa451437706901db')
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .expect(200)
+      .expect((res) => {
+        assert((res.body as Relationship.User).nickName);
+        assert((res.body as Relationship.User).realName);
+      });
+  });
+  it('正式成员可以查询到用户的完整信息', () => {
+    return app.httpRequest()
+      .get('/api/v1/users/59f09727fa451437706901db')
+      .set('Authorization', `Bearer ${tokenGen(app, {
+        _id: '59f1cd15c4ba889296e3b596',
+        openid: '30624770',
+        session_key: '',
+        unionid: '',
+        openId: '30624770',
+        type: 1,
+      })}`)
+      .expect(200)
+      .expect((res) => {
+        assert((res.body as Relationship.User).nickName);
+        assert((res.body as Relationship.User).realName);
+      });
   });
   it('格式错误的UserId', () => {
     return app.httpRequest()
@@ -65,5 +106,25 @@ describe('User管理', () => {
     return app.httpRequest()
       .get('/api/v1/users/111111111111111111111111')
       .expect(404);
+  });
+
+
+  it('更改User', () => {
+    return app.httpRequest()
+      .put('/api/v1/users/59ea0940271de30cb5b79031')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        realName: '张er',
+        nickName: '阿san',
+        enrollmentYear: 2001,
+        openId: '22222',
+      })
+      .expect(204);
+  });
+
+  it('请求User列表', () => {
+    return app.httpRequest()
+      .get('/api/v1/users')
+      .expect(200);
   });
 });

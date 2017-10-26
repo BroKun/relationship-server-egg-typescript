@@ -19,7 +19,7 @@ describe('token管理', () => {
   it('成功创建token', () => {
     app.mockService('wechat', 'jscode2session', async () => {
       return {
-        openid: '1111',
+        openid: '30624700',
         session_key: '1111',
         unionid: '1111',
       };
@@ -29,7 +29,19 @@ describe('token管理', () => {
       .send({ code: 1111 })
       .expect(201);
   });
-
+  it('用户尚未注册,无法生成Token', () => {
+    app.mockService('wechat', 'jscode2session', async () => {
+      return {
+        openid: '1111',
+        session_key: '1111',
+        unionid: '1111',
+      };
+    });
+    return app.httpRequest()
+      .post('/api/v1/tokens')
+      .send({ code: 1111 })
+      .expect(403);
+  });
   it('创建token失败,微信API错误', () => {
     app.mockService('wechat', 'jscode2session', async () => {
       return {

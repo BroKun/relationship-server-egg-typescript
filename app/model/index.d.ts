@@ -1,11 +1,9 @@
-import { IUser } from '../common/user.model';
-import { IStarring } from '../common/starring.model';
-import { Mongoose, Model } from 'mongoose';
+import { Mongoose, Model, Document } from 'mongoose';
 declare module 'egg' {
   export interface Context {
     model: {
-      User: Model<IUser>,
-      Starring: Model<IStarring>,
+      User: Model<Relationship.User & Document>,
+      Starring: Model<Relationship.Starring & Document>,
     };
   }
 }

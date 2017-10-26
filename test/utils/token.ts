@@ -1,15 +1,15 @@
-import { Application, DefaultConfig } from 'egg';
+import {Application, DefaultConfig} from 'egg';
 import * as jwt from 'jsonwebtoken';
-import * as moment from 'moment';
+import { SignOptions } from '../../app/common/tokens.model';
 
-export default function (app: Application): string {
-  const exp: number = moment().add(30, 'days').unix();
+export default function (app: Application, obj?: object): string {
   const tokenInfo = {
-    openid: '',
+    openid: '30624700',
     session_key: '',
     unionid: '',
-    exp,
+    openId: '30624700',
+    _id: '59f09727fa451437706901db',
   };
-  const token = jwt.sign(tokenInfo, (app.config as DefaultConfig).jwt.secret);
+  const token = jwt.sign(obj ? obj : tokenInfo, (app.config as DefaultConfig).jwt.secret, SignOptions());
   return token;
 }
