@@ -1,4 +1,4 @@
-import { Controller } from 'egg';
+import {Controller,DefaultConfig} from 'egg';
 import authorized from '../utils/authorized';
 
 /**
@@ -43,7 +43,9 @@ export default class Users extends Controller {
    */
   @authorized
   public async create() {
-    const { ctx } = this;
+    const {ctx,config} = this;
+    const key: string = (config as DefaultConfig).jwt.key;
+    const token = ctx.state[key];
     const invalid = this.app.validator.validate(userValidationRule, ctx.request.body);
     if (invalid) {
       ctx.throw(400);
@@ -59,16 +61,19 @@ export default class Users extends Controller {
    * GET /users/:userid
    */
   public async show() {
-    const { ctx } = this;
-    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    const {ctx,config} = this;
+    const key: string = (config as DefaultConfig).jwt.key;
+    const token = ctx.state[key];
+    const invalid = this.app.validator.validate({id: 'ObjectId'}, ctx.params);
     if (invalid) {
       ctx.throw(400);
     }
-    const user = await ctx.model.User.findOne({ _id: ctx.params.id });
+    const user = await ctx.model.User.findOne({_id: ctx.params.id});
     if (!user) {
       ctx.throw(404);
     }
     ctx.body = user;
+    ctx.status = 200;
   }
 
   /**
@@ -77,8 +82,15 @@ export default class Users extends Controller {
    */
   @authorized
   public async update() {
-    const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const {ctx} = this;
+    const invalid = this.app.validator.validate({id: 'ObjectId'}, ctx.params);
+    if (invalid) {
+      ctx.throw(400);
+    }
+    const conditions = {_id: ctx.params.id};
+    const update = {$set: ctx.request.body};
+    await ctx.model.User.update(conditions, update, {});
+    ctx.status = 204;
   }
 
   /**
@@ -86,7 +98,25 @@ export default class Users extends Controller {
    * GET /users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
    */
   public async index() {
-    const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const {ctx} = this;
+    const page = ctx.query.page;
+    const per_page = ctx.query.per_page;
+    const order = ctx.query.order;
+    const sort: string = ctx.query.sort;
+    const member = ctx.query.member;
+    const enrollmentYear = ctx.query.enrollmentYear;
+    const nickName = ctx.query.nickName;
+    const major = ctx.query.major;
+    const conditions = { member: member }; // 查询条件
+    if (enrollmentYear) conditions['enrollmentYear'] = enrollmentYear;
+    if (nickName) conditions['nickName'] = nickName;
+    if (major) conditions['major'] = major;
+
+    const users = await ctx.model.User.find(conditions)
+      .sort(order == '1' ? '' : '-' + `${ sort }`)
+      .skip((page - 1) * per_page)
+      .limit(per_page);
+    ctx.body = users;
+    ctx.status = 200;
   }
 }

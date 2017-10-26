@@ -20,8 +20,8 @@ module.exports = (app: Application) => {
    * DELETE /users/teaching/:userid
    * GET /user/:master/teaching/:apprentices
    */
-  app.post('teaching_create', '/api/v1/users/teaching/:id', 'teaching.create');
-  app.delete('teaching_delete', '/api/v1/users/teaching/:id', 'teaching.destroy');
+  app.post('teaching_create', '/api/v1/users/teaching/:id/', 'teaching.create');
+  app.delete('teaching_delete', '/api/v1/users/teaching/:id/', 'teaching.destroy');
   app.get('teaching_check', '/user/:master/teaching/:apprentices', 'teaching.check');
 
   /**

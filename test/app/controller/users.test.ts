@@ -66,4 +66,24 @@ describe('User管理', () => {
       .get('/api/v1/users/111111111111111111111111')
       .expect(404);
   });
+
+
+  it('更改User', () => {
+    return app.httpRequest()
+      .put('/api/v1/users/59ea0940271de30cb5b79031')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        realName: '张er',
+        nickName: '阿san',
+        enrollmentYear: 2001,
+        openId: '22222',
+      })
+      .expect(204);
+  });
+
+  it('请求User列表', () => {
+    return app.httpRequest()
+      .get('/api/v1/users')
+      .expect(200);
+  });
 });
