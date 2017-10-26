@@ -1,12 +1,7 @@
 import { Controller, DefaultConfig } from 'egg';
 import * as jwt from 'jsonwebtoken';
-import * as moment from 'moment';
-
-interface SessionInfo {
-  openid: string;
-  unionid: string;
-  token?: string;
-}
+import { SignOptions } from '../common/tokens.model';
+import { isError } from '../common/wechat.model';
 export default class Tokens extends Controller {
   /**
    * 登录获取openid,unionid与token
@@ -14,13 +9,22 @@ export default class Tokens extends Controller {
   public async create() {
     const { ctx, config } = this;
     const wxRes = await ctx.service.wechat.jscode2session(ctx.request.body['code']);
-    if ((wxRes as WX.Error).errcode) { ctx.throw(422, {errors: wxRes}); }
-    const exp: number = moment().add(30, 'days').unix();
-    const token: string = jwt.sign({ ...wxRes, exp }, (config as DefaultConfig).jwt.secret);
-    const res: SessionInfo = {
+    if (isError(wxRes)) {
+      ctx.throw(422, { errors: wxRes });
+      return;
+    }
+    const user = await ctx.model.User.findOne({ openId: wxRes.openid });
+    if (!user) {
+      ctx.throw(403, 'User Not Found');
+    }
+    const options = SignOptions();
+    options.audience = user._id.toString();
+    const token = jwt.sign({ ...user, ...wxRes, openId: wxRes.openid }, (config as DefaultConfig).jwt.secret, options);
+    const res = {
       token,
-      openid: (wxRes as WX.Session).openid,
-      unionid: (wxRes as WX.Session).unionid,
+      openid: wxRes.openid,
+      unionid: wxRes.unionid,
+      user,
     };
     ctx.body = res;
     ctx.status = 201;

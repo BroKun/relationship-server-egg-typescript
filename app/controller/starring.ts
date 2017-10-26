@@ -1,80 +1,98 @@
 import { Controller, DefaultConfig } from 'egg';
-import { IUser } from '../common/users.model';
+import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
+import { isRegular, isUser, userBaseSelect, userRegularSelect } from '../common/users.model';
 import authorized from '../utils/authorized';
-
-function isSigned(user: IUser | object): user is IUser {
-  return user && (user as IUser)._id.length > 0;
-}
 
 export default class Starring extends Controller {
   /**
    * 点赞
    * POST /users/starred/:id
    */
-  @authorized
+  @authorized(isUser)
   public async create() {
     const { ctx, config } = this;
-    const key: string = (config as DefaultConfig).jwt.key;
-    const stargazer = ctx.state[key];
-    if (!isSigned(stargazer)) {
-      ctx.throw(403, 'Sign Up First, Please');
-    } else {
-      const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
-      if (invalid) {
-        ctx.throw(400);
-      }
-      const starred = await ctx.model.User.findOne({ _id: ctx.params.id });
-      if (!starred) {
-        ctx.throw(404, 'User Not Found');
-      }
-      const starring = new ctx.model.Starring({
-        stargazer: (stargazer as IUser)._id,
-        stargazerOpenId: (stargazer as IUser).openId,
-        stargazerRealName: stargazer.realName,
-        stargazerNickName: stargazer.nickName,
-        stargazerAvatar: stargazer.avatar,
-        starred: starred._id,
-        starredOpenId: starred.openId,
-        starredRealName: starred.realName,
-        starredNickName: starred.nickName,
-        starredAvatar: starred.avatar,
-      });
-      await starring.save();
-      ctx.status = 204;
+    const stargazer: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
+    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    if (invalid) {
+      ctx.throw(400);
     }
+    const starred = await ctx.model.User.findOne({ _id: ctx.params.id });
+    if (!starred) {
+      ctx.throw(404, 'User Not Found');
+    }
+    const starring = new ctx.model.Starring({
+      stargazer: stargazer._id,
+      starred: starred._id,
+    });
+    await starring.save();
+    ctx.status = 204;
   }
 
   /**
    * 取消赞
    * DELETE /users/starred/:userid
    */
-  @authorized
+  @authorized(isUser)
   public async destroy() {
-    const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const { ctx, config } = this;
+    const user = ctx.state[(config as DefaultConfig).jwt.key];
+    await ctx.model.Starring.remove({ stargazer: (user as Relationship.User)._id, starred: ctx.params.id });
+    ctx.status = 204;
   }
   /**
    * 验证点赞关系
-   * GET /user/:userid/starred/:otheruser
+   * GET /user/:stargazer/starred/:starred
    */
   public async check() {
     const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const starring = await ctx.model.Starring.findOne({ stargazer: ctx.params.stargazer, starred: ctx.params.starred });
+    if (!starring) {
+      ctx.throw(404);
+    }
+    ctx.status = 204;
   }
   /**
    * 列举点过的赞
-   * GET /user/:userid/starred?{page,per_page,order,sort}
+   * GET /user/:id/starred?{page,per_page,order,sort}
    */
   public async show() {
-    const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const { app, ctx, config } = this;
+    const idInvalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    if (idInvalid) {
+      ctx.throw(400);
+    }
+    let listQuery = ctx.model.Starring.find({ stargazer: ctx.params.id });
+    const queriesInvalid = app.validator.validate(queryValidationRule, ctx.queries);
+    const queries: Relationship.Query = queriesInvalid ? defaultQuery() : ctx.queries;
+    listQuery = pagedQuery(listQuery, queries);
+    const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
+    const userList = await listQuery.populate({
+      path: 'starred',
+      select: isRegular(tokenInfo) ? userRegularSelect() : userBaseSelect(),
+    });
+    ctx.body = userList;
+    ctx.status = 200;
   }
   /**
    * 列举被谁赞过
-   * GET /user/:userid/stargazers?{page,per_page,order,sort}
+   * GET /user/:id/stargazers?{page,per_page,order,sort}
    */
   public async stargazers() {
-    const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const { app, ctx, config } = this;
+    const idInvalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    if (idInvalid) {
+      ctx.throw(400);
+    }
+    let listQuery = ctx.model.Starring.find({ stargazer: ctx.params.id });
+    const queriesInvalid = app.validator.validate(queryValidationRule, ctx.queries);
+    const queries: Relationship.Query = queriesInvalid ? defaultQuery() : ctx.queries;
+    listQuery = pagedQuery(listQuery, queries);
+    const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
+    const userList = await listQuery.populate({
+      path: 'stargazer',
+      select: isRegular(tokenInfo) ? userRegularSelect() : userBaseSelect(),
+    });
+    ctx.body = userList;
+    ctx.status = 200;
   }
 }

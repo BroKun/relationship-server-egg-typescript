@@ -7,7 +7,7 @@ export default class Teaching extends Controller {
    * 建立师徒关系
    * POST /users/teaching/:userid
    */
-  //@authorized
+  @authorized()
   public async create() {
     const {ctx, config} = this;
     ctx.state = 204;
@@ -31,7 +31,7 @@ export default class Teaching extends Controller {
    * 删除师徒关系
    * DELETE /users/teaching/:userid
    */
-  //@authorized
+  @authorized()
   public async destroy() {
     const {ctx} = this;
     ctx.state = 204;
