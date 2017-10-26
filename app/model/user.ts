@@ -26,7 +26,8 @@ export default (app: Application) => {
     updateAt: { type: Schema.Types.Date, default: Date.now },
   });
   userSchema.index({ openId: 1 }, { unique: true });
-  userSchema.index({ nickName: 1, unionId: 1 });
+  userSchema.index({ nickName: 1 });
+  userSchema.index({ unionId: 1 });
   userSchema.pre('save', function (next) {
     const now = new Date();
     this.updateAt = now;
