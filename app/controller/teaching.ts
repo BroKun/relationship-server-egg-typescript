@@ -1,6 +1,5 @@
 import {Controller, DefaultConfig} from 'egg';
-//import authorized from '../utils/authorized';
-import {IUser} from "../common/users.model";
+import authorized from '../utils/authorized';
 
 export default class Teaching extends Controller {
   /**
@@ -18,8 +17,8 @@ export default class Teaching extends Controller {
     const key: string = (config as DefaultConfig).jwt.key;
     const token = ctx.state[key];
 
-    const stu: IUser = await ctx.model.User.findOne({_id: token._id});
-    const master: IUser = await ctx.model.User.findOne({_id: ctx.params.id});
+    const stu = await ctx.model.User.findOne({_id: token._id});
+    const master = await ctx.model.User.findOne({_id: ctx.params.id});
     master.apprentices.push(stu);
     await master.save();
     stu.masters = ctx.params.id;
@@ -40,8 +39,8 @@ export default class Teaching extends Controller {
       ctx.throw(400);
     }
 
-    const stu: IUser = await ctx.model.User.findOne({_id: '59e766cbd07ee90cb1b9817c'});
-    const master: IUser = await ctx.model.User.findOne({_id: ctx.params.id});
+    const stu = await ctx.model.User.findOne({_id: '59e766cbd07ee90cb1b9817c'});
+    const master = await ctx.model.User.findOne({_id: ctx.params.id});
     for (let i = 0; i < master.apprentices.length; ++i) {
       if (master.apprentices[i]._id === stu._id) {
         master.apprentices.slice(i, 1);
@@ -66,7 +65,7 @@ export default class Teaching extends Controller {
       ctx.throw(400);
     }
 
-    const user: IUser = await ctx.model.User.findOne({_id: ctx.params.master});
+    const user = await ctx.model.User.findOne({_id: ctx.params.master});
     if (user.apprentices.find((x) => x._id == ctx.params.apprentices)) {
       ctx.body = true;
     }

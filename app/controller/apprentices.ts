@@ -1,5 +1,4 @@
 import {Controller} from 'egg';
-import {IUser} from "../common/users.model";
 
 export default class Apprentices extends Controller {
   /**
@@ -12,7 +11,7 @@ export default class Apprentices extends Controller {
     if (invalid) {
       ctx.throw(400);
     }
-    const user:IUser = await ctx.model.User.findOne({ _id: ctx.params.id });
+    const user = await ctx.model.User.findOne({ _id: ctx.params.id });
     if (!user) {
       ctx.throw(404, 'User Not Found');
     }
