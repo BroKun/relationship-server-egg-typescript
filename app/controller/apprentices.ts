@@ -4,7 +4,7 @@ import {IUser} from "../common/users.model";
 export default class Apprentices extends Controller {
   /**
    * 徒弟列表
-   * GET /user/:userid/apprentices
+   * GET /api/v1/users/:id/apprentices
    */
   public async index() {
     const {ctx} = this;

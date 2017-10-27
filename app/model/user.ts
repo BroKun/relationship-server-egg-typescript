@@ -1,5 +1,6 @@
 import { Application } from 'egg';
 import { Document, Schema } from 'mongoose';
+import { etagPlugin, timePlugin } from '../common/mongo.base';
 
 /**
  * 用户模型
@@ -22,16 +23,11 @@ export default (app: Application) => {
     masters: { type: Schema.Types.ObjectId, ref: 'User' },
     apprentices: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     unacceptedApprentices: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    createAt: { type: Schema.Types.Date, default: Date.now },
-    updateAt: { type: Schema.Types.Date, default: Date.now },
   });
   userSchema.index({ openId: 1 }, { unique: true });
   userSchema.index({ nickName: 1 });
   userSchema.index({ unionId: 1 });
-  userSchema.pre('save', function (next) {
-    const now = new Date();
-    this.updateAt = now;
-    next();
-  });
+  userSchema.plugin(timePlugin);
+  userSchema.plugin(etagPlugin);
   return mongoose.model<Document & Relationship.User>('User', userSchema);
 };

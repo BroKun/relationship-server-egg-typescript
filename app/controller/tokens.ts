@@ -5,6 +5,7 @@ import { isError } from '../common/wechat.model';
 export default class Tokens extends Controller {
   /**
    * 登录获取openid,unionid与token
+   * POST /api/v1/tokens
    */
   public async create() {
     const { ctx, config } = this;

@@ -4,7 +4,7 @@ import {IUser} from "../common/users.model";
 export default class Masters extends Controller {
   /**
    * 师傅列表
-   * GET /user/:userid/masters
+   * GET /api/v1/users/:id/masters
    */
   public async index() {
     const {ctx} = this;
