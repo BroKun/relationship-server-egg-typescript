@@ -6,7 +6,7 @@ import authorized from '../utils/authorized';
 export default class Starring extends Controller {
   /**
    * 点赞
-   * POST /users/starred/:id
+   * POST /api/v1/user/starred/:id
    */
   @authorized(isUser)
   public async create() {
@@ -30,7 +30,7 @@ export default class Starring extends Controller {
 
   /**
    * 取消赞
-   * DELETE /users/starred/:userid
+   * DELETE /api/v1/user/starred/:id
    */
   @authorized(isUser)
   public async destroy() {
@@ -41,7 +41,7 @@ export default class Starring extends Controller {
   }
   /**
    * 验证点赞关系
-   * GET /user/:stargazer/starred/:starred
+   * GET /api/v1/users/:stargazer/starred/:starred
    */
   public async check() {
     const { ctx } = this;
@@ -57,7 +57,7 @@ export default class Starring extends Controller {
   }
   /**
    * 列举点过的赞
-   * GET /user/:id/starred?{page,per_page,order,sort}
+   * GET /api/v1/users/:id/starred?{page,per_page,order,sort}
    */
   public async show() {
     const { app, ctx, config } = this;
@@ -81,7 +81,7 @@ export default class Starring extends Controller {
   }
   /**
    * 列举被谁赞过
-   * GET /user/:id/stargazers?{page,per_page,order,sort}
+   * GET /api/v1/users/:id/stargazers?{page,per_page,order,sort}
    */
   public async stargazers() {
     const { app, ctx, config } = this;
