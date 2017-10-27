@@ -1,5 +1,5 @@
 declare namespace Relationship {
-  interface Starring {
+  interface StarringBase {
     /**
      * 点赞者
      */
@@ -8,15 +8,11 @@ declare namespace Relationship {
      * 被赞者
      */
     starred: string;
-    /**
-     * 创建时间
-     */
-    createAt: Date;
   }
 
   // export type IStarring = Starring & MongoDocument;
 
-  interface ITokenBase {
+  interface TokenBase {
     /**
      * 生成时间
      */
@@ -43,13 +39,27 @@ declare namespace Relationship {
     iss?: string | number;
   }
 
-  type Token<T> = ITokenBase & T;
+  type Token<T> = TokenBase & T;
 
-  interface User {
+  interface ModelBase {
     /**
-     * 用户Id
+     * 文档id
      */
     _id: string;
+    /**
+     * 创建时间
+     */
+    createAt: Date;
+    /**
+     * 修改时间
+     */
+    updateAt: Date;
+    /**
+     * 获取etag值
+     */
+    etag?:()=>string;
+  }
+  interface UserBase {
     /**
      * openId,来自微信
      */
@@ -108,15 +118,10 @@ declare namespace Relationship {
      * 未接纳的徒弟
      */
     unacceptedApprentices?: [string];
-    /**
-     * 创建时间
-     */
-    createAt?: Date;
-    /**
-     * 修改时间
-     */
-    updateAt?: Date;
   }
+
+  type User = ModelBase & UserBase;
+  type Starring = ModelBase & StarringBase;
   interface Query {
     page?: number;
     per_page?: number;

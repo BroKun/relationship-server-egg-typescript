@@ -1,10 +1,10 @@
 import { Controller, DefaultConfig } from 'egg';
-import { isRegular, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
+import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
 export default class Users extends Controller {
   /**
    * 创建新用户
-   * POST /users
+   * POST /api/v1/users
    */
   @authorized()
   public async create() {
@@ -21,7 +21,7 @@ export default class Users extends Controller {
 
   /**
    * 获取用户信息
-   * GET /users/:userid
+   * GET /api/v1/users/:id
    */
   public async show() {
     const { app, ctx, config } = this;
@@ -30,7 +30,7 @@ export default class Users extends Controller {
       ctx.throw(400);
     }
     const tokenInfo: Relationship.Token<Relationship.User> = ctx.state[(config as DefaultConfig).jwt.key];
-    const isRegularUser = tokenInfo && (tokenInfo._id === ctx.params.id || isRegular(tokenInfo));
+    const isRegularUser = isUser(tokenInfo) && (tokenInfo._id === ctx.params.id || isRegular(tokenInfo));
     const user = await ctx.model.User
       .findOne({ _id: ctx.params.id })
       .select(isRegularUser ? userRegularSelect() : userBaseSelect());
@@ -43,7 +43,7 @@ export default class Users extends Controller {
 
   /**
    * 修改用户信息
-   * PUT /users/:userid
+   * PUT /api/v1/users/:id
    */
   @authorized()
   public async update() {
@@ -60,7 +60,7 @@ export default class Users extends Controller {
 
   /**
    * 列举用户信息
-   * GET /users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
+   * GET /api/v1/users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
    */
   public async index() {
     const {ctx} = this;

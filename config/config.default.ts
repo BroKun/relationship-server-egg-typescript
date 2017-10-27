@@ -37,8 +37,8 @@ export default (appInfo: EggAppConfig): Default => {
       option: {},
     },
     wxapp: {
-      AppID: 'wxb736f611f652ac16',
-      AppSecret: '0693d9005ce2c0886c194c3aa9e07a4a',
+      AppID: 'wx.appId',
+      AppSecret: 'wx.appSecret',
     },
     security: {
       csrf: {

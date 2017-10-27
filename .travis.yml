@@ -16,8 +16,6 @@ script:
 after_script:
 - npminstall codecov && codecov
 - cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls
-- openssl aes-256-cbc -K $encrypted_456eeb0c6b33_key -iv $encrypted_456eeb0c6b33_iv
-  -in .travis/config.default.ts.enc -out config/config.default.ts -d
 - npm run clean
 - rm -rf node_modules
 - tar -czf relationship-server.tar.gz *
@@ -25,6 +23,7 @@ after_script:
 - ssh brokun@101.200.36.181 'rm -rf relationship-server'
 - ssh brokun@101.200.36.181 'mkdir -p relationship-server && tar -xzvf relationship-server.tar.gz
   -C relationship-server'
+- ssh brokun@101.200.36.181 'unalias cp && cp config.default.ts relationship-server/config/config.default.ts'
 - ssh brokun@101.200.36.181 'cd relationship-server && npm i --production'
 - ssh brokun@101.200.36.181 'cd relationship-server && npm run tsc'
 - ssh brokun@101.200.36.181 'cd relationship-server && egg-scripts stop'
@@ -32,5 +31,5 @@ after_script:
   --daemon --env=prod --title=${appname}-server'
 notifications:
   slack:
-    secure: ASaK1V57pQgDllZD8/xSF/ixCJYComg6q/KIaeYDE/iMVOiSzhb9Tj5DdJahLYTfHuke8QPoNcks8Au9hXttY/gALCRi/xqy+JzFbbkDNVBrd0JlPd1WYGJgEYphFxpL/RTw2qNjvsdvrGwBNcNgf7Ic5PpoXUM8KUnRUYTb9oZAka5GgAfX9UKY+NWfBhsX9yOGy3sHBC2JnpNMbB6q77PWYXT/iLoRvwIOKVehsaZDG1HlO42vEcOSq8QuqJVfQ02iGxTSCZyp5wwbv3fPvgzCd34y3DUI/kg1KMeqVUWKE9B7/g6bwl8KQn0r/Qm3abzSas5En99YcuqriRScMC8vs6AYD+aST031XncTNrxvFoHfYKFvcMEZvmx5WjK12HFb2AZIPYFEDr4pQqirPuO7JNCX93+zUkABs4c5tTPqXHxy6AR40VzkqXxyxrOwftcYn4rbIS44bfzBaaFWiQbhYcj7kIKbU+huMauoHn3a2dlI6mKioLNPWaQJeIaAUccSdrCm2zO4dS2sYM+A6WjXkcX8p3aAfLSdZgVs/oQ9v4WEVFJnYjheEZNV5k5c51BQhfbBlTQR+c8J98OuF4ufltUOaaSYsNKwqahqzYN6b2eK08ECr8cf4RB3rXMVVuR5LWqqYceQJDlWhsGICfLxrvHcVNaTszFKJVW8qTo=
+    secure: $slack_secure
 
