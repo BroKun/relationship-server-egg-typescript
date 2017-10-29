@@ -5,8 +5,8 @@ module.exports = (app: Application) => {
   /**
    * teaching
    */
-  app.post('teaching_create', '/api/v1/api/v1/user/teaching/:id', 'teaching.create');
-  app.delete('teaching_delete', '/api/v1/api/v1/user/teaching/:id', 'teaching.destroy');
+  app.post('teaching_create', '/api/v1/user/teaching/:id', 'teaching.create');
+  app.delete('teaching_delete', '/api/v1/user/teaching/:id', 'teaching.destroy');
   app.get('teaching_check', '/api/v1/users/:master/teaching/:apprentices', 'teaching.check');
 
   /**
