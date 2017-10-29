@@ -2,6 +2,7 @@ import * as assert from 'assert';
 import * as mm from 'egg-mock';
 import * as uuid from 'uuid';
 import tokenGen from '../../utils/token';
+
 describe('User管理', () => {
   const app = mm.app();
 
@@ -112,12 +113,10 @@ describe('User管理', () => {
   it('更改User', () => {
     return app.httpRequest()
       .put('/api/v1/users/59ea0940271de30cb5b79031')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({
-        realName: '张er',
         nickName: '阿san',
-        enrollmentYear: 2001,
-        openId: '22222',
+        enrollmentYear: 2012,
       })
       .expect(204);
   });

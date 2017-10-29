@@ -11,27 +11,38 @@ describe('师徒关系', () => {
 
   afterEach(mm.restore);
 
-  it('建立师徒关系',() => {
-    return app.httpRequest()
-      .post('/api/v1/users/teaching/59ea0940271de30cb5b79031')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
-      .send({}) //_id: '59e766cbd07ee90cb1b9817c'
-      .expect(204);
+  describe('建立与取消师徒关系', () => {
+    it('建立师徒关系', () => {
+      return app.httpRequest()
+        .post('/api/v1/user/teaching/59f1aa5c2fdb3d221426e2b9')
+        .set('Authorization', `Bearer ${tokenGen(app)}`)
+        .send({})
+        .expect(204);
+    });
+    it('删除师徒关系', async () => {
+      return app.httpRequest()
+        .delete('/api/v1/user/teaching/59f1aa5c2fdb3d221426e2b9')
+        .set('Authorization', `Bearer ${tokenGen(app)}`)
+        .send({})
+        .expect(204);
+    });
   });
 
-  it('查询师徒关系',async () => {
+  it('查询正确的师徒关系', async () => {
     return app.httpRequest()
-      .get('/user/59ea0940271de30cb5b79031/teaching/59e766cbd07ee90cb1b9817c')
+      .get('/api/v1/users/59f09727fa451437706901db/teaching/59f1cd15c4ba889296e3b596')
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({})
-      .expect(200);
+      .expect(200)
+      .expect(res => res.body == true);
   });
 
-  it('删除师徒关系',async () => {
+  it('查询错误的师徒关系', async () => {
     return app.httpRequest()
-      .delete('/api/v1/users/teaching/59ea0940271de30cb5b79031')
+      .get('/api/v1/users/59f09727fa451437706901db/teaching/59f1ed8a323c981b08d25b63')
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({})
-      .expect(204);
+      .expect(200)
+      .expect(res => res.body == false);
   });
 });
