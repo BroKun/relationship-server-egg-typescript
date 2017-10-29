@@ -1,56 +1,57 @@
-import {Controller, DefaultConfig} from 'egg';
+import { Controller, DefaultConfig } from 'egg';
+import { isUser } from '../common/users.model';
 import authorized from '../utils/authorized';
 
 export default class Teaching extends Controller {
   /**
    * 建立师徒关系
-   * POST /api/v1/api/v1/user/teaching/:id
+   * POST /api/v1/user/teaching/:id
    */
-  @authorized()
+  @authorized(isUser)
   public async create() {
-    const {ctx, config} = this;
-    ctx.state = 204;
-    const invalid = this.app.validator.validate({id: 'ObjectId'}, ctx.params);
+    const { ctx, config } = this;
+    const stu: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
+    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
     }
-    const key: string = (config as DefaultConfig).jwt.key;
-    const token = ctx.state[key];
 
-    const stu = await ctx.model.User.findOne({_id: token._id});
-    const master = await ctx.model.User.findOne({_id: ctx.params.id});
-    master.apprentices.push(stu);
+    const master = await ctx.model.User.findOne({ _id: ctx.params.id });
+    if (!master) {
+      ctx.throw(404, 'User Not Found');
+    }
+    master.apprentices.push(stu._id);
     await master.save();
-    stu.masters = ctx.params.id;
-    await stu.save();
-    ctx.state = 204;
+    ctx.status = 204;
   }
 
   /**
    * 删除师徒关系
-   * DELETE /api/v1/api/v1/user/teaching/:id
+   * DELETE /api/v1/user/teaching/:id
    */
-  @authorized()
+  @authorized(isUser)
   public async destroy() {
-    const {ctx} = this;
-    ctx.state = 204;
-    const invalid = this.app.validator.validate({id: 'ObjectId'}, ctx.params);
+    const { ctx, config } = this;
+    const stu: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
+    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
     }
 
-    const stu = await ctx.model.User.findOne({_id: '59e766cbd07ee90cb1b9817c'});
-    const master = await ctx.model.User.findOne({_id: ctx.params.id});
-    for (let i = 0; i < master.apprentices.length; ++i) {
-      if (master.apprentices[i]._id === stu._id) {
-        master.apprentices.slice(i, 1);
-        break;
-      }
+    const master = await ctx.model.User.findOne({ _id: ctx.params.id });
+    if (!master) {
+      ctx.throw(404, 'User Not Found');
     }
+    master.apprentices.forEach((val, idx, array) => {
+      // val: 当前值
+      // idx：当前index
+      // array: Array
+      if (val == stu._id) {
+        array.splice(idx, 1);
+      }
+    });
     await master.save();
-    stu.masters = null;
-    await stu.save();
-    ctx.state = 204;
+    ctx.status = 204;
   }
 
   /**
@@ -58,18 +59,19 @@ export default class Teaching extends Controller {
    * GET /api/v1/users/:master/teaching/:apprentices
    */
   public async check() {
-    const {ctx} = this;
-    const invalid_m = this.app.validator.validate({master: 'ObjectId'}, ctx.params);
-    const invalid_a = this.app.validator.validate({apprentices: 'ObjectId'}, ctx.params);
+    const { ctx } = this;
+    const invalid_m = this.app.validator.validate({ master: 'ObjectId' }, ctx.params);
+    const invalid_a = this.app.validator.validate({ apprentices: 'ObjectId' }, ctx.params);
     if (invalid_m || invalid_a) {
       ctx.throw(400);
     }
-
-    const user = await ctx.model.User.findOne({_id: ctx.params.master});
-    if (user.apprentices.find((x) => x._id == ctx.params.apprentices)) {
-      ctx.body = true;
-    }
-    ctx.body = false;
     ctx.status = 200;
+    const master = await ctx.model.User.findOne({ _id: ctx.params.master });
+    if (!master) {
+      ctx.body = false;
+      return;
+    }
+    const res_id = master.apprentices.findIndex(x => x == ctx.params.apprentices);
+    ctx.body = res_id != -1;
   }
 }

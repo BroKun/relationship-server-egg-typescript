@@ -1,6 +1,8 @@
 import { Controller, DefaultConfig } from 'egg';
+import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
+
 export default class Users extends Controller {
   /**
    * 创建新用户
@@ -47,13 +49,13 @@ export default class Users extends Controller {
    */
   @authorized()
   public async update() {
-    const {ctx} = this;
-    const invalid = this.app.validator.validate({id: 'ObjectId'}, ctx.params);
+    const { ctx } = this;
+    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
     }
-    const conditions = {_id: ctx.params.id};
-    const update = {$set: ctx.request.body};
+    const conditions = { _id: ctx.params.id };
+    const update = { '$set': ctx.request.body };
     await ctx.model.User.update(conditions, update, {});
     ctx.status = 204;
   }
@@ -63,25 +65,30 @@ export default class Users extends Controller {
    * GET /api/v1/users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
    */
   public async index() {
-    const {ctx} = this;
-    const page = ctx.query.page;
-    const per_page = ctx.query.per_page;
-    const order = ctx.query.order;
-    const sort: string = ctx.query.sort;
-    const member = ctx.query.member;
-    const enrollmentYear = ctx.query.enrollmentYear;
-    const nickName = ctx.query.nickName;
-    const major = ctx.query.major;
-    const conditions = { member: member }; // 查询条件
-    if (enrollmentYear) conditions['enrollmentYear'] = enrollmentYear;
-    if (nickName) conditions['nickName'] = nickName;
-    if (major) conditions['major'] = major;
+    const { app, ctx } = this;
+    const type = ctx.query.type || 0;
+    const query = ctx.query;
+    delete query['type'];
+    const conditions = { type: type }; // 查询条件
+    if (ctx.query.enrollmentYear) {
+      conditions['enrollmentYear'] = query.enrollmentYear;
+      delete query['enrollmentYear'];
+    }
+    if (ctx.query.nickName) {
+      conditions['nickName'] = query.nickName;
+      delete query['nickName'];
+    }
+    if (ctx.query.major) {
+      conditions['major'] = query.major;
+      delete query['major'];
+    }
 
-    const users = await ctx.model.User.find(conditions)
-      .sort(order == '1' ? '' : '-' + `${ sort }`)
-      .skip((page - 1) * per_page)
-      .limit(per_page);
-    ctx.body = users;
+    let listQuery = ctx.model.User.find(conditions);
+
+    const queriesInvalid = app.validator.validate(queryValidationRule, query);
+    const queries: Relationship.Query = queriesInvalid ? defaultQuery() : query;
+    listQuery = pagedQuery(listQuery, queries);
+    ctx.body = await listQuery;
     ctx.status = 200;
   }
 }

@@ -2,7 +2,6 @@ import Apprentices from './apprentices';
 import Masters from './masters';
 import Starring from './starring';
 import Teaching from './teaching';
-import Test from './test';
 import Tokens from './tokens';
 import Users from './users';
 
