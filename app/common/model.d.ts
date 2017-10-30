@@ -57,7 +57,13 @@ declare namespace Relationship {
     /**
      * 获取etag值
      */
-    etag?:()=>string;
+    etag?: () => string;
+  }
+  interface ModelStatic {
+    /**
+     * 获取列表的etag值
+     */
+    listEtag?: (list: ModelBase[], extra?: string) => string;
   }
   interface UserBase {
     /**
@@ -125,7 +131,7 @@ declare namespace Relationship {
   interface Query {
     page?: number;
     per_page?: number;
-    order?: string;
+    order?: 'asc'|'desc';
     sort?: string;
   }
 }
