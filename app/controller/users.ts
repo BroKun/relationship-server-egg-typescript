@@ -1,6 +1,8 @@
 import { Controller, DefaultConfig } from 'egg';
+import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
+
 export default class Users extends Controller {
   /**
    * 创建新用户
@@ -38,6 +40,7 @@ export default class Users extends Controller {
       ctx.throw(404);
     }
     ctx.body = user;
+    ctx.status = 200;
   }
 
   /**
@@ -47,7 +50,14 @@ export default class Users extends Controller {
   @authorized()
   public async update() {
     const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    if (invalid) {
+      ctx.throw(400);
+    }
+    const conditions = { _id: ctx.params.id };
+    const update = { '$set': ctx.request.body };
+    await ctx.model.User.update(conditions, update, {});
+    ctx.status = 204;
   }
 
   /**
@@ -55,7 +65,30 @@ export default class Users extends Controller {
    * GET /api/v1/users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
    */
   public async index() {
-    const { ctx } = this;
-    ctx.throw(422, 'Unimplemented');
+    const { app, ctx } = this;
+    const type = ctx.query.type || 0;
+    const query = ctx.query;
+    delete query['type'];
+    const conditions = { type: type }; // 查询条件
+    if (ctx.query.enrollmentYear) {
+      conditions['enrollmentYear'] = query.enrollmentYear;
+      delete query['enrollmentYear'];
+    }
+    if (ctx.query.nickName) {
+      conditions['nickName'] = query.nickName;
+      delete query['nickName'];
+    }
+    if (ctx.query.major) {
+      conditions['major'] = query.major;
+      delete query['major'];
+    }
+
+    let listQuery = ctx.model.User.find(conditions);
+
+    const queriesInvalid = app.validator.validate(queryValidationRule, query);
+    const queries: Relationship.Query = queriesInvalid ? defaultQuery() : query;
+    listQuery = pagedQuery(listQuery, queries);
+    ctx.body = await listQuery;
+    ctx.status = 200;
   }
 }

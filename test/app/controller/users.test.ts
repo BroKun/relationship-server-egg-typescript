@@ -2,8 +2,10 @@ import * as assert from 'assert';
 import * as mm from 'egg-mock';
 import * as uuid from 'uuid';
 import tokenGen from '../../utils/token';
+
 describe('User管理', () => {
   const app = mm.app();
+
   before(async () => {
     await app.ready();
   });
@@ -105,5 +107,23 @@ describe('User管理', () => {
     return app.httpRequest()
       .get('/api/v1/users/111111111111111111111111')
       .expect(404);
+  });
+
+
+  it('更改User', () => {
+    return app.httpRequest()
+      .put('/api/v1/users/59ea0940271de30cb5b79031')
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .send({
+        nickName: '阿san',
+        enrollmentYear: 2012,
+      })
+      .expect(204);
+  });
+
+  it('请求User列表', () => {
+    return app.httpRequest()
+      .get('/api/v1/users')
+      .expect(200);
   });
 });

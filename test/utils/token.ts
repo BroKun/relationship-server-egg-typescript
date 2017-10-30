@@ -1,4 +1,4 @@
-import { Application, DefaultConfig } from 'egg';
+import {Application, DefaultConfig} from 'egg';
 import * as jwt from 'jsonwebtoken';
 import { SignOptions } from '../../app/common/tokens.model';
 
