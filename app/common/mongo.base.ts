@@ -14,14 +14,31 @@ export function timePlugin(schema: Schema) {
   });
 }
 export function etagPlugin(schema: Schema) {
-  schema.methods.etag = function () {
+  schema.method('etag', function (extra?: string) {
     const thisObj = this;
+    const md5 = crypto.createHash('md5');
+    md5.update('md5');
     if (isModelBase(thisObj)) {
-      const md5 = crypto.createHash('md5');
-      md5.update(thisObj._id);
+      md5.update(thisObj._id.toString());
       md5.update(thisObj.createAt.getTime().toString());
       md5.update(thisObj.updateAt.getTime().toString());
-      return md5.digest();
+      if (extra) {
+        md5.update(extra);
+      }
     }
-  };
+    return md5.digest('hex');
+  });
+  schema.static('listEtag', function (list: Relationship.ModelBase[], extra?: string) {
+    const md5 = crypto.createHash('md5');
+    md5.update('md5');
+    list.forEach((item) => {
+      md5.update(item._id.toString());
+      md5.update(item.createAt.getTime().toString());
+      md5.update(item.updateAt.getTime().toString());
+    });
+    if (extra) {
+      md5.update(extra);
+    }
+    return md5.digest('hex');
+  });
 }

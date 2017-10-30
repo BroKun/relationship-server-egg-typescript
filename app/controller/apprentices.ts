@@ -17,11 +17,11 @@ export default class Apprentices extends Controller {
       ctx.throw(404, 'User Not Found');
     }
     const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
-    const user_app = await user.populate({
+    const userWithApprentices = await user.populate({
       path: 'apprentices',
       select: isRegular(tokenInfo) ? userRegularSelect() : userBaseSelect(),
     });
-    ctx.body = user_app.apprentices;
+    ctx.body = userWithApprentices.apprentices;
     ctx.status = 200;
   }
 }

@@ -2,6 +2,7 @@ import { Controller, DefaultConfig } from 'egg';
 import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
+import cacheControl from '../utils/headers';
 
 export default class Users extends Controller {
   /**
@@ -9,6 +10,7 @@ export default class Users extends Controller {
    * POST /api/v1/users
    */
   @authorized()
+  @cacheControl()
   public async create() {
     const { app, ctx } = this;
     const invalid = app.validator.validate(userValidationRule, ctx.request.body);
@@ -25,6 +27,7 @@ export default class Users extends Controller {
    * 获取用户信息
    * GET /api/v1/users/:id
    */
+  @cacheControl('public, max-age=0')
   public async show() {
     const { app, ctx, config } = this;
     const invalid = app.validator.validate({ id: 'ObjectId' }, ctx.params);
@@ -48,6 +51,7 @@ export default class Users extends Controller {
    * PUT /api/v1/users/:id
    */
   @authorized()
+  @cacheControl()
   public async update() {
     const { ctx } = this;
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
@@ -64,12 +68,13 @@ export default class Users extends Controller {
    * 列举用户信息
    * GET /api/v1/users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
    */
+  @cacheControl('public, max-age=60')
   public async index() {
     const { app, ctx } = this;
     const type = ctx.query.type || 0;
     const query = ctx.query;
     delete query['type'];
-    const conditions = { type: type }; // 查询条件
+    const conditions = { type }; // 查询条件
     if (ctx.query.enrollmentYear) {
       conditions['enrollmentYear'] = query.enrollmentYear;
       delete query['enrollmentYear'];
