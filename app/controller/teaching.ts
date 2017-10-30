@@ -63,18 +63,16 @@ export default class Teaching extends Controller {
    */
   public async check() {
     const { ctx } = this;
-    const invalid_m = this.app.validator.validate({ master: 'ObjectId' }, ctx.params);
-    const invalid_a = this.app.validator.validate({ apprentices: 'ObjectId' }, ctx.params);
-    if (invalid_m || invalid_a) {
+    const invalidMaster = this.app.validator.validate({ master: 'ObjectId' }, ctx.params);
+    const invalidApprentices = this.app.validator.validate({ apprentices: 'ObjectId' }, ctx.params);
+    if (invalidMaster || invalidApprentices) {
       ctx.throw(400);
     }
-    ctx.status = 200;
     const master = await ctx.model.User.findOne({ _id: ctx.params.master });
-    if (!master) {
-      ctx.body = false;
+    if (master && (-1 !== master.apprentices.findIndex((x) => x === ctx.params.apprentices))) {
+      ctx.throw(204);
       return;
     }
-    const res_id = master.apprentices.findIndex((x) => x === ctx.params.apprentices);
-    ctx.body = res_id !== -1;
+    ctx.throw(404);
   }
 }
