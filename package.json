@@ -25,7 +25,7 @@
     "@types/moment": "^2.13.0",
     "@types/mongoose": "^4.7.23",
     "@types/node": "^8.0.34",
-    "@types/supertest": "^2.0.0",
+    "@types/supertest": "^2.0.3",
     "autod": "^2.10.1",
     "autod-egg": "^1.0.0",
     "coveralls": "^3.0.0",
