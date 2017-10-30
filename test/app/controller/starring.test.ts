@@ -1,6 +1,7 @@
 import * as assert from 'assert';
 import * as mm from 'egg-mock';
 import tokenGen from '../../utils/token';
+
 describe('Starring管理', () => {
   const app = mm.app();
   before(async () => {
@@ -12,13 +13,13 @@ describe('Starring管理', () => {
   describe('点赞与取消赞', () => {
     it('点赞', () => {
       return app.httpRequest()
-        .post('/api/v1/user/starred/59f1aa5c2fdb3d221426e2b9')
+        .post('/api/v1/user/starred/59f1d5d860607c1048f7fe94')
         .set('Authorization', `Bearer ${tokenGen(app)}`)
         .expect(204);
     });
     it('取消赞', () => {
       return app.httpRequest()
-        .delete('/api/v1/user/starred/59f1aa5c2fdb3d221426e2b9')
+        .delete('/api/v1/user/starred/59f1d5d860607c1048f7fe94')
         .set('Authorization', `Bearer ${tokenGen(app)}`)
         .expect(204);
     });
@@ -35,23 +36,41 @@ describe('Starring管理', () => {
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .expect(404);
   });
-  it('验证点赞关系-成功', () => {
-    return app.httpRequest()
-      .get('/api/v1/users/59f09727fa451437706901db/starred/59f1cd15c4ba889296e3b596')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
-      .expect(204);
-  });
-  it('验证点赞关系-失败', () => {
-    return app.httpRequest()
-      .get('/api/v1/users/59f09727fa451437706901db/starred/111111111111111111111111')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
-      .expect(404);
-  });
-  it('验证异常id点赞关系-失败', () => {
-    return app.httpRequest()
-      .get('/api/v1/users/123456/starred/59f1cd15c4ba889296e3b596')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
-      .expect(400);
+  describe('验证点赞关系', () => {
+    let etag = null;
+    it('验证点赞关系-成功', async () => {
+      await app.httpRequest()
+        .get('/api/v1/users/59f09727fa451437706901db/starred/59f1cd15c4ba889296e3b596')
+        .expect(204)
+        .expect((res: Response) => {
+          etag = res.headers['etag'];
+        });
+    });
+
+    it('验证点赞关系-成功,验证缓存', async () => {
+      await app.httpRequest()
+        .get('/api/v1/users/59f09727fa451437706901db/starred/59f1cd15c4ba889296e3b596')
+        .set('if-none-match', etag)
+        .expect(304);
+    });
+    it('验证点赞关系-成功,验证弱缓存', async () => {
+      await app.httpRequest()
+        .get('/api/v1/users/59f09727fa451437706901db/starred/59f1cd15c4ba889296e3b596')
+        .set('if-none-match', `W/${etag}`)
+        .expect(304);
+    });
+    it('验证点赞关系-失败', () => {
+      return app.httpRequest()
+        .get('/api/v1/users/59f09727fa451437706901db/starred/111111111111111111111111')
+        .set('Authorization', `Bearer ${tokenGen(app)}`)
+        .expect(404);
+    });
+    it('验证异常id点赞关系-失败', () => {
+      return app.httpRequest()
+        .get('/api/v1/users/123456/starred/59f1cd15c4ba889296e3b596')
+        .set('Authorization', `Bearer ${tokenGen(app)}`)
+        .expect(400);
+    });
   });
   it('普通用户列举指定id赞过的人', () => {
     return app.httpRequest()
