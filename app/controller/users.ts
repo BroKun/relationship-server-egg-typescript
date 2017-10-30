@@ -55,7 +55,7 @@ export default class Users extends Controller {
       ctx.throw(400);
     }
     const conditions = { _id: ctx.params.id };
-    const update = { '$set': ctx.request.body };
+    const update = { $set: ctx.request.body };
     await ctx.model.User.update(conditions, update, {});
     ctx.status = 204;
   }

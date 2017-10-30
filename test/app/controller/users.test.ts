@@ -5,11 +5,15 @@ import tokenGen from '../../utils/token';
 
 describe('User管理', () => {
   const app = mm.app();
-
+  const open_Id = uuid.v1();
   before(async () => {
     await app.ready();
   });
-  after(() => app.close());
+  after(async () => {
+    const ctx = app.mockContext();
+    await ctx.model.User.remove({ openId: open_Id });
+    await app.close();
+  });
 
   afterEach(mm.restore);
 
@@ -18,7 +22,7 @@ describe('User管理', () => {
       .post('/api/v1/users')
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({
-        openId: uuid.v1(),
+        openId: open_Id,
       })
       .expect(201);
   });
@@ -112,7 +116,7 @@ describe('User管理', () => {
 
   it('更改User', () => {
     return app.httpRequest()
-      .put('/api/v1/users/59ea0940271de30cb5b79031')
+      .put('/api/v1/users/59f09727fa451437706901db')
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({
         nickName: '阿san',
