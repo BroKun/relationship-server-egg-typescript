@@ -2,7 +2,7 @@ import { Controller, DefaultConfig } from 'egg';
 import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
-import cacheControl from '../utils/header';
+import cacheControl from '../utils/headers';
 
 export default class Users extends Controller {
   /**
@@ -27,6 +27,7 @@ export default class Users extends Controller {
    * 获取用户信息
    * GET /api/v1/users/:id
    */
+  @cacheControl('public, max-age=0')
   public async show() {
     const { app, ctx, config } = this;
     const invalid = app.validator.validate({ id: 'ObjectId' }, ctx.params);
@@ -67,6 +68,7 @@ export default class Users extends Controller {
    * 列举用户信息
    * GET /api/v1/users{?page,per_page,order,sort,member,enrollmentYear,nickName,major}
    */
+  @cacheControl('public, max-age=60')
   public async index() {
     const { app, ctx } = this;
     const type = ctx.query.type || 0;

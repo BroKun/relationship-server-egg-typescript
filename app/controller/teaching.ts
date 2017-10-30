@@ -1,7 +1,7 @@
 import { Controller, DefaultConfig } from 'egg';
 import { isUser } from '../common/users.model';
 import authorized from '../utils/authorized';
-import cacheControl from '../utils/header';
+import cacheControl from '../utils/headers';
 
 export default class Teaching extends Controller {
   /**
@@ -59,20 +59,20 @@ export default class Teaching extends Controller {
 
   /**
    * 验证师徒关系
-   * GET /api/v1/users/:master/teaching/:apprentices
+   * GET /api/v1/users/:master/teaching/:apprentice
    */
+  @cacheControl()
   public async check() {
     const { ctx } = this;
-    const invalidMaster = this.app.validator.validate({ master: 'ObjectId' }, ctx.params);
-    const invalidApprentices = this.app.validator.validate({ apprentices: 'ObjectId' }, ctx.params);
-    if (invalidMaster || invalidApprentices) {
+    const invalid = this.app.validator.validate({ master: 'ObjectId', apprentice: 'ObjectId' }, ctx.params);
+    if (invalid) {
       ctx.throw(400);
     }
     const master = await ctx.model.User.findOne({ _id: ctx.params.master });
-    if (master && (-1 !== master.apprentices.findIndex((x) => x === ctx.params.apprentices))) {
-      ctx.throw(204);
-      return;
+    const apprenticeIndex = master ? master.apprentices.findIndex((x) => x.toString() === ctx.params.apprentice) : -1;
+    if (apprenticeIndex === -1) {
+      ctx.throw(404);
     }
-    ctx.throw(404);
+    ctx.status = 204;
   }
 }
