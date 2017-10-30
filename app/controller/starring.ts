@@ -114,7 +114,6 @@ export default class Starring extends Controller {
       return element.stargazer;
     });
     const etag = ctx.model.Starring.listEtag(starringList, isRegularUser.toString());
-    console.log(`"${etag.toString()}"`);
     ctx.set('etag', `"${etag}"`);
     ctx.status = 200;
   }
