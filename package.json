@@ -4,16 +4,16 @@
   "description": "a Wechat mini-programs for dreamtecher",
   "private": true,
   "dependencies": {
-    "cross-env": "^5.1.0",
+    "cross-env": "^5.1.1",
     "egg": "^1.10.0",
     "egg-mongoose": "^2.1.1",
     "egg-scripts": "^2.1.0",
     "egg-validate": "^1.0.0",
     "js-yaml": "^3.10.0",
     "jsonwebtoken": "^8.1.0",
+    "koa-json": "^2.0.2",
     "koa-jwt": "^3.2.2",
     "moment": "^2.19.1",
-    "mongoose": "^4.12.4",
     "source-map-support": "^0.5.0",
     "tslib": "^1.8.0",
     "typescript": "^2.5.3"
@@ -32,7 +32,7 @@
     "egg-bin": "^4.3.5",
     "egg-ci": "^1.8.0",
     "egg-mock": "^3.13.1",
-    "eslint": "^4.9.0",
+    "eslint": "^4.10.0",
     "eslint-config-egg": "^5.1.1",
     "tslint": "^5.8.0",
     "uuid": "^3.1.0"

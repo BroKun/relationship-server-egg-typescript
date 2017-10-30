@@ -17,6 +17,7 @@ module.exports = {
     "js-yaml",
     "jsonwebtoken",
     "koa-jwt",
+    "koa-json",
     "moment",
     "source-map-support",
     "tslib",
