@@ -2,6 +2,7 @@ import { Controller, DefaultConfig } from 'egg';
 import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
+import cacheControl from '../utils/header';
 
 export default class Users extends Controller {
   /**
@@ -9,6 +10,7 @@ export default class Users extends Controller {
    * POST /api/v1/users
    */
   @authorized()
+  @cacheControl()
   public async create() {
     const { app, ctx } = this;
     const invalid = app.validator.validate(userValidationRule, ctx.request.body);
@@ -48,6 +50,7 @@ export default class Users extends Controller {
    * PUT /api/v1/users/:id
    */
   @authorized()
+  @cacheControl()
   public async update() {
     const { ctx } = this;
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
@@ -55,7 +58,7 @@ export default class Users extends Controller {
       ctx.throw(400);
     }
     const conditions = { _id: ctx.params.id };
-    const update = { '$set': ctx.request.body };
+    const update = { $set: ctx.request.body };
     await ctx.model.User.update(conditions, update, {});
     ctx.status = 204;
   }
@@ -69,7 +72,7 @@ export default class Users extends Controller {
     const type = ctx.query.type || 0;
     const query = ctx.query;
     delete query['type'];
-    const conditions = { type: type }; // 查询条件
+    const conditions = { type }; // 查询条件
     if (ctx.query.enrollmentYear) {
       conditions['enrollmentYear'] = query.enrollmentYear;
       delete query['enrollmentYear'];

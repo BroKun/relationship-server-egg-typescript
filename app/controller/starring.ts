@@ -2,6 +2,7 @@ import { Controller, DefaultConfig } from 'egg';
 import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect } from '../common/users.model';
 import authorized from '../utils/authorized';
+import cacheControl from '../utils/header';
 
 export default class Starring extends Controller {
   /**
@@ -9,6 +10,7 @@ export default class Starring extends Controller {
    * POST /api/v1/user/starred/:id
    */
   @authorized(isUser)
+  @cacheControl()
   public async create() {
     const { ctx, config } = this;
     const stargazer: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
@@ -33,6 +35,7 @@ export default class Starring extends Controller {
    * DELETE /api/v1/user/starred/:id
    */
   @authorized(isUser)
+  @cacheControl()
   public async destroy() {
     const { ctx, config } = this;
     const user = ctx.state[(config as DefaultConfig).jwt.key];

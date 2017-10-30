@@ -1,6 +1,7 @@
 import { Controller, DefaultConfig } from 'egg';
 import { isUser } from '../common/users.model';
 import authorized from '../utils/authorized';
+import cacheControl from '../utils/header';
 
 export default class Teaching extends Controller {
   /**
@@ -8,6 +9,7 @@ export default class Teaching extends Controller {
    * POST /api/v1/user/teaching/:id
    */
   @authorized(isUser)
+  @cacheControl()
   public async create() {
     const { ctx, config } = this;
     const stu: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
@@ -30,6 +32,7 @@ export default class Teaching extends Controller {
    * DELETE /api/v1/user/teaching/:id
    */
   @authorized(isUser)
+  @cacheControl()
   public async destroy() {
     const { ctx, config } = this;
     const stu: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
@@ -46,7 +49,7 @@ export default class Teaching extends Controller {
       // val: 当前值
       // idx：当前index
       // array: Array
-      if (val == stu._id) {
+      if (val === stu._id) {
         array.splice(idx, 1);
       }
     });
@@ -71,7 +74,7 @@ export default class Teaching extends Controller {
       ctx.body = false;
       return;
     }
-    const res_id = master.apprentices.findIndex(x => x == ctx.params.apprentices);
-    ctx.body = res_id != -1;
+    const res_id = master.apprentices.findIndex((x) => x === ctx.params.apprentices);
+    ctx.body = res_id !== -1;
   }
 }
