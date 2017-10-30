@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as mm from 'egg-mock';
 import tokenGen from '../../utils/token';
-describe('User管理', () => {
+describe('Starring管理', () => {
   const app = mm.app();
   before(async () => {
     await app.ready();
