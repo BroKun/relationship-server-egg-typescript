@@ -7,6 +7,6 @@ export interface Prod {
 
 export default (appInfo: EggAppConfig): Prod => {
   return {
-    middleware: ['errorHandler', 'notfoundHandler', 'jwt', 'json_pretty'],
+    middleware: ['errorHandler', 'notfoundHandler', 'jwt', 'jsonPretty'],
   };
 };
