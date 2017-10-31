@@ -11,18 +11,28 @@
 * 基于json web token的认证方式
 * 完整的类型定义和单元测试支持
 
-### middleware & plugin
+## middleware & plugin
 * egg-validator
 * egg-mongoose
 * koa-jwt
 * koa-json
+## API
+[API文档](https://brokun.cn/relationship-docs)
+基于ApiDoc自动生成
+### TODO
 
-### Contributors
+- [x] 对last-modified-since的响应
+- [x] Hyperlink url的支持
+- [x] rate-limit 
+- [x] GraphQL
+
+
+## Contributors
 * [BroKun](https://github.com/BroKun)
 * [Youngnutcake](https://github.com/Youngnutcake)
 
 ----
-### Usage
+## Usage
 
 ```shell
 编译ts文件: npm run tsc
