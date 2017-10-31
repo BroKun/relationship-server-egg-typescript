@@ -1,4 +1,4 @@
-import { Controller, DefaultConfig } from 'egg';
+import { Controller } from 'egg';
 import * as jwt from 'jsonwebtoken';
 import { SignOptions } from '../common/tokens.model';
 import { isError } from '../common/wechat.model';
@@ -20,7 +20,7 @@ export default class Tokens extends Controller {
     }
     const options = SignOptions();
     options.audience = user._id.toString();
-    const token = jwt.sign({ ...user, ...wxRes, openId: wxRes.openid }, (config as DefaultConfig).jwt.secret, options);
+    const token = jwt.sign({ ...user, ...wxRes, openId: wxRes.openid }, config.jwt.secret, options);
     const res = {
       token,
       openid: wxRes.openid,

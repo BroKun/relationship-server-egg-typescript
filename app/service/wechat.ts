@@ -1,4 +1,4 @@
-import { DefaultConfig, Service } from 'egg';
+import { Service } from 'egg';
 import constant from '../utils/constant';
 
 /**
@@ -13,8 +13,8 @@ export default class Wechat extends Service {
   public async jscode2session(code: string): Promise<WX.Session | WX.Error> {
     const { config, ctx } = this;
     const params = {
-      appid: (config as DefaultConfig).wxapp.AppID,
-      secret: (config as DefaultConfig).wxapp.AppSecret,
+      appid: config.wxapp.AppID,
+      secret: config.wxapp.AppSecret,
       js_code: code,
       grant_type: 'authorization_code',
     };

@@ -1,4 +1,4 @@
-import { Controller, DefaultConfig } from 'egg';
+import { Controller } from 'egg';
 import { isRegular, userBaseSelect, userRegularSelect } from '../common/users.model';
 
 export default class Masters extends Controller {
@@ -17,7 +17,7 @@ export default class Masters extends Controller {
       ctx.throw(404, 'User Not Found');
     }
 
-    const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
+    const tokenInfo = ctx.state[config.jwt.key];
     ctx.body = await user.populate({
       path: 'masters',
       select: isRegular(tokenInfo) ? userRegularSelect() : userBaseSelect(),

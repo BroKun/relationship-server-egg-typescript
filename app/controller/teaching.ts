@@ -1,4 +1,4 @@
-import { Controller, DefaultConfig } from 'egg';
+import { Controller } from 'egg';
 import { isUser } from '../common/users.model';
 import authorized from '../utils/authorized';
 import cacheControl from '../utils/headers';
@@ -12,7 +12,7 @@ export default class Teaching extends Controller {
   @cacheControl()
   public async create() {
     const { ctx, config } = this;
-    const stu: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
+    const stu: Relationship.User = ctx.state[config.jwt.key];
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
@@ -35,7 +35,7 @@ export default class Teaching extends Controller {
   @cacheControl()
   public async destroy() {
     const { ctx, config } = this;
-    const stu: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
+    const stu: Relationship.User = ctx.state[config.jwt.key];
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);

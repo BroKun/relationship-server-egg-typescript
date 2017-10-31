@@ -1,4 +1,4 @@
-import { Controller, DefaultConfig } from 'egg';
+import { Controller } from 'egg';
 import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect, userValidationRule } from '../common/users.model';
 import authorized from '../utils/authorized';
@@ -34,7 +34,7 @@ export default class Users extends Controller {
     if (invalid) {
       ctx.throw(400);
     }
-    const tokenInfo: Relationship.Token<Relationship.User> = ctx.state[(config as DefaultConfig).jwt.key];
+    const tokenInfo: Relationship.Token<Relationship.User> = ctx.state[config.jwt.key];
     const isRegularUser = isUser(tokenInfo) && (tokenInfo._id === ctx.params.id || isRegular(tokenInfo));
     const user = await ctx.model.User
       .findOne({ _id: ctx.params.id })
