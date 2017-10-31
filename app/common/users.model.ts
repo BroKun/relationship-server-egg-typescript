@@ -44,10 +44,10 @@ export const userValidationRule = {
 };
 
 export function isUser(user: Relationship.User): user is Relationship.User {
-  return user && (user._id.length > 0) && (user.openId.length > 0);
+  return !!(user && (user._id.length > 0) && (user.openId.length > 0));
 }
 export function isRegular(user: Relationship.User): user is Relationship.User {
-  return user && (user._id.length > 0) && (user.openId.length > 0) && (user.type >= 1);
+  return !!(user && (user._id.length > 0) && (user.openId.length > 0) && (user.type >= 1));
 }
 export const userBaseSelect = () => {
   return {

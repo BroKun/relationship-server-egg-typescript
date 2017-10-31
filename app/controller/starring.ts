@@ -1,4 +1,4 @@
-import { Controller, DefaultConfig } from 'egg';
+import { Controller } from 'egg';
 import { defaultQuery, pagedQuery, queryValidationRule } from '../common/query.model';
 import { isRegular, isUser, userBaseSelect, userRegularSelect } from '../common/users.model';
 import authorized from '../utils/authorized';
@@ -13,7 +13,7 @@ export default class Starring extends Controller {
   @cacheControl()
   public async create() {
     const { ctx, config } = this;
-    const stargazer: Relationship.User = ctx.state[(config as DefaultConfig).jwt.key];
+    const stargazer: Relationship.User = ctx.state[config.jwt.key];
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);
@@ -38,7 +38,7 @@ export default class Starring extends Controller {
   @cacheControl()
   public async destroy() {
     const { ctx, config } = this;
-    const user = ctx.state[(config as DefaultConfig).jwt.key];
+    const user = ctx.state[config.jwt.key];
     await ctx.model.Starring.remove({ stargazer: (user as Relationship.User)._id, starred: ctx.params.id });
     ctx.status = 204;
   }
@@ -76,7 +76,7 @@ export default class Starring extends Controller {
     const queriesInvalid = app.validator.validate(queryValidationRule, ctx.queries);
     const queries: Relationship.Query = queriesInvalid ? defaultQuery() : ctx.queries;
     listQuery = pagedQuery(listQuery, queries);
-    const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
+    const tokenInfo = ctx.state[config.jwt.key];
     const isRegularUser = isRegular(tokenInfo);
     const starringList = await listQuery.populate({
       path: 'starred',
@@ -104,7 +104,7 @@ export default class Starring extends Controller {
     const queriesInvalid = app.validator.validate(queryValidationRule, ctx.queries);
     const queries: Relationship.Query = queriesInvalid ? defaultQuery() : ctx.queries;
     listQuery = pagedQuery(listQuery, queries);
-    const tokenInfo = ctx.state[(config as DefaultConfig).jwt.key];
+    const tokenInfo = ctx.state[config.jwt.key];
     const isRegularUser = isRegular(tokenInfo);
     const starringList = await listQuery.populate({
       path: 'stargazer',

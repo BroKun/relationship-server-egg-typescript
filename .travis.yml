@@ -29,6 +29,7 @@ after_script:
 - ssh brokun@101.200.36.181 'cd relationship-server && egg-scripts stop'
 - ssh brokun@101.200.36.181 'cd relationship-server && egg-scripts start --port=8080
   --daemon --env=prod --title=${appname}-server'
+- ssh brokun@101.200.36.181 'apidoc -i relationship-server/app -o relationship-docs'
 notifications:
   slack:
     secure: $slack_secure

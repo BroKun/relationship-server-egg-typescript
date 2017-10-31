@@ -7,6 +7,6 @@ export interface Local {
 
 export default (appInfo: EggAppConfig): Local => {
   return {
-    middleware: ['errorHandler', 'notfoundHandler', 'jwt', 'json_pretty'],
+    middleware: ['errorHandler', 'notfoundHandler', 'jwt', 'jsonPretty'],
   };
 };
