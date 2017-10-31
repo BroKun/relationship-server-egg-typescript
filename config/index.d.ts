@@ -1,4 +1,4 @@
-import { EggAppConfig, Service } from 'egg';
+import { Context, EggAppConfig, Service } from 'egg';
 import { Mongoose } from 'mongoose';
 import { Default } from './config.default'
 import { Local } from './config.local'
@@ -8,7 +8,8 @@ import { SuperTest, Test } from 'supertest';
 declare module 'egg' {
   export interface Application {
     validator: {
-      validate: any;
+      validate: (rule: object | string, obj: object) => object | void;
+      addRule: (ruleName: string, rule: objetc | RegExp) => void;
     };
     mongoose: Mongoose;
     config: IAppConfig;
@@ -20,6 +21,10 @@ declare module 'egg' {
   export interface Service {
     config: IAppConfig;
   }
+  export interface Context {
+    model: IModel;
+  }
+  export interface IModel { }
   export type LocalConfig = EggAppConfig & Default & Local;
   export type ProdConfig = EggAppConfig & Default & Prod;
   export type UnitTestConfig = EggAppConfig & Default & UnitTest;
