@@ -21,10 +21,10 @@
 基于ApiDoc自动生成
 ### TODO
 
-- [x] 对last-modified-since的响应
-- [x] Hyperlink url的支持
-- [x] rate-limit 
-- [x] GraphQL
+- [ ] 对last-modified-since的响应
+- [ ] Hyperlink url的支持
+- [ ] rate-limit 
+- [ ] GraphQL
 
 
 ## Contributors
