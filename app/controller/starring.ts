@@ -39,6 +39,10 @@ export default class Starring extends Controller {
   public async destroy() {
     const { ctx, config } = this;
     const user = ctx.state[config.jwt.key];
+    const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
+    if (invalid) {
+      ctx.throw(400);
+    }
     await ctx.model.Starring.remove({ stargazer: (user as Relationship.User)._id, starred: ctx.params.id });
     ctx.status = 204;
   }
