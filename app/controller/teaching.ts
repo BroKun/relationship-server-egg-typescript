@@ -14,7 +14,7 @@ export default class Teaching extends Controller {
     const { ctx, config } = this;
     const stu: Relationship.User = ctx.state[config.jwt.key];
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
-    if (invalid) {
+    if (invalid || stu._id.toString() === ctx.params.id) {
       ctx.throw(400);
     }
 
@@ -22,8 +22,11 @@ export default class Teaching extends Controller {
     if (!master) {
       ctx.throw(404, 'User Not Found');
     }
-    master.apprentices.push(stu._id);
-    await master.save();
+    const apprenticeIndex = master ? master.apprentices.findIndex((x) => x.toString() === ctx.params.apprentice) : -1;
+    if (apprenticeIndex === -1) {
+      master.apprentices.push(stu._id);
+      await master.save();
+    }
     ctx.status = 204;
   }
 
