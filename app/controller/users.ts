@@ -87,7 +87,8 @@ export default class Users extends Controller {
       conditions['major'] = query.major;
       delete query['major'];
     }
-
+    if (query['page']) query['page'] = parseInt(query['page']);
+    if (query['per_page']) query['per_page'] = parseInt(query['per_page']);
     let listQuery = ctx.model.User.find(conditions);
 
     const queriesInvalid = app.validator.validate(queryValidationRule, query);
