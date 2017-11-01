@@ -20,7 +20,7 @@ export const queryValidationRule = {
     required: false,
   },
   sort: {
-    type: 'int',
+    type: 'string',
     required: false,
   },
 };
