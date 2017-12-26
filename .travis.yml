@@ -7,7 +7,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_cf2f27b2e746_key -iv $encrypted_cf2f27b2e746_iv
   -in .travis/id_rsa.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
-- echo -e "Host 101.200.36.181\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- echo -e "Host $serverAddr\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
 - npm i npminstall && npminstall
 script:
@@ -19,17 +19,17 @@ after_script:
 - npm run clean
 - rm -rf node_modules
 - tar -czf relationship-server.tar.gz *
-- scp relationship-server.tar.gz brokun@101.200.36.181:~/
-- ssh brokun@101.200.36.181 'rm -rf relationship-server'
-- ssh brokun@101.200.36.181 'mkdir -p relationship-server && tar -xzvf relationship-server.tar.gz
+- scp relationship-server.tar.gz brokun@$serverAddr:~/
+- ssh brokun@$serverAddr 'rm -rf relationship-server'
+- ssh brokun@$serverAddr 'mkdir -p relationship-server && tar -xzvf relationship-server.tar.gz
   -C relationship-server'
-- ssh brokun@101.200.36.181 'cp config.default.ts relationship-server/config/config.default.ts'
-- ssh brokun@101.200.36.181 'cd relationship-server && npm i --production'
-- ssh brokun@101.200.36.181 'cd relationship-server && npm run tsc'
-- ssh brokun@101.200.36.181 'cd relationship-server && egg-scripts stop'
-- ssh brokun@101.200.36.181 'cd relationship-server && egg-scripts start --port=8080
+- ssh brokun@$serverAddr 'cp config.default.ts relationship-server/config/config.default.ts'
+- ssh brokun@$serverAddr 'cd relationship-server && npm i --production'
+- ssh brokun@$serverAddr 'cd relationship-server && npm run tsc'
+- ssh brokun@$serverAddr 'cd relationship-server && egg-scripts stop'
+- ssh brokun@$serverAddr 'cd relationship-server && egg-scripts start --port=8080
   --daemon --env=prod --title=${appname}-server'
-- ssh brokun@101.200.36.181 'apidoc -i relationship-server/app -o relationship-docs'
+- ssh brokun@$serverAddr 'apidoc -i relationship-server/app -o relationship-docs'
 notifications:
   slack:
     secure: $slack_secure
