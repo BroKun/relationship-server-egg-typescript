@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { UnitTestConfig } from 'egg';
-import * as mm from 'egg-mock';
+import mm from 'egg-mock';
 import WXBizDataCrypt from '../../../app/utils/WXBizDataCrypt';
 describe('微信解密模块', () => {
   const app = mm.app();

@@ -1,4 +1,4 @@
-import * as mm from 'egg-mock';
+import mm from 'egg-mock';
 
 describe('token管理', () => {
   const app = mm.app();

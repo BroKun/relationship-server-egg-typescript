@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import * as mm from 'egg-mock';
+import mm from 'egg-mock';
 import tokenGen from '../../utils/token';
 
 describe('Starring管理', () => {

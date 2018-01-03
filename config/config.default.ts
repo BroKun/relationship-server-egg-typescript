@@ -1,5 +1,4 @@
 import { EggAppConfig } from 'egg';
-import 'source-map-support/register';
 
 export interface Default {
   /**

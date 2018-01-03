@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import * as mm from 'egg-mock';
+import mm from 'egg-mock';
 import tokenGen from '../../utils/token';
 
 describe('徒弟查询', () => {
@@ -18,7 +18,7 @@ describe('徒弟查询', () => {
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({}).expect(200)
       .expect((res) => {
-        assert((res.body as Array<any>).length > 0);
+        assert((res.body as any[]).length > 0);
         assert((res.body[0] as Relationship.User).nickName);
       });
   });

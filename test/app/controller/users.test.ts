@@ -1,17 +1,17 @@
 import * as assert from 'assert';
-import * as mm from 'egg-mock';
+import mm from 'egg-mock';
 import * as uuid from 'uuid';
 import tokenGen from '../../utils/token';
 
 describe('User管理', () => {
   const app = mm.app();
-  const open_Id = uuid.v1();
+  const openId = uuid.v1();
   before(async () => {
     await app.ready();
   });
   after(async () => {
     const ctx = app.mockContext();
-    await ctx.model.User.remove({ openId: open_Id });
+    await ctx.model.User.remove({ openId });
     await app.close();
   });
 
@@ -22,7 +22,7 @@ describe('User管理', () => {
       .post('/api/v1/users')
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .send({
-        openId: open_Id,
+        openId,
       })
       .expect(201);
   });
@@ -112,7 +112,6 @@ describe('User管理', () => {
       .get('/api/v1/users/111111111111111111111111')
       .expect(404);
   });
-
 
   it('更改User', () => {
     return app.httpRequest()

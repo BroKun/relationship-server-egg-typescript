@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import * as mm from 'egg-mock';
+import mm from 'egg-mock';
 
 describe('微信接口服务测试', () => {
   const app = mm.app();

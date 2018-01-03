@@ -1,4 +1,4 @@
-import * as mm from 'egg-mock';
+import mm from 'egg-mock';
 import tokenGen from '../../utils/token';
 
 describe('师傅查询', () => {
