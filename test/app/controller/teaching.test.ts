@@ -48,4 +48,12 @@ describe('师徒关系', () => {
       .set('Authorization', `Bearer ${tokenGen(app)}`)
       .expect(400);
   });
+
+  it('不允许自己和自己建立师徒关系', () => {
+    return app.httpRequest()
+      .post('/api/v1/user/teaching/59f09727fa451437706901db')
+      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .send({})
+      .expect(400);
+  });
 });
