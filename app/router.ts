@@ -293,15 +293,4 @@ module.exports = (app: Application) => {
    * @apiUse UserList
    */
   app.get('user_index', '/api/v1/users', 'users.index');
-  /**
-   * tokens
-   * @api {post} /api/v1/tokens 创建令牌
-   * @apiName token_create
-   * @apiGroup tokens
-   * @apiVersion 1.0.0
-   * @apiParam {string} code encrypted user code.
-   * @apiUse Created
-   */
-  // TODO: note补充返回类型
-  app.post('token_create', '/api/v1/tokens', 'tokens.create');
 };

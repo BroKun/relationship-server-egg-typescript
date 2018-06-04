@@ -8,6 +8,7 @@ export default class Apprentices extends Controller {
    */
   public async index() {
     const { ctx, config } = this;
+    console.log(config);
     const invalid = this.app.validator.validate({ id: 'ObjectId' }, ctx.params);
     if (invalid) {
       ctx.throw(400);

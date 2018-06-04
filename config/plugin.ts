@@ -6,3 +6,7 @@ export const mongoose = {
   enable: true,
   package: 'egg-mongoose',
 };
+export const onerror = {
+  enable: false,
+  package: 'egg-onerror',
+};

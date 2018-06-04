@@ -1,11 +1,19 @@
-import { Context, EggAppConfig, Service } from 'egg';
-import { Mongoose } from 'mongoose';
-import { Default } from './config.default'
-import { Local } from './config.local'
-import { Prod } from './config.prod'
-import { UnitTest } from './config.unittest'
+import { Context, EggAppConfig, PowerPartial, Service } from 'egg';
+import { Document, Model, Mongoose } from 'mongoose';
 import { SuperTest, Test } from 'supertest';
+import ExportConfigDefault from './config.default';
+import ExportConfigLocal from './config.local';
+import ExportConfigProd from './config.prod';
+import ExportConfigUnittest from './config.unittest';
+type Default = ReturnType<typeof ExportConfigDefault>;
+type Local = ReturnType<typeof ExportConfigLocal>;
+type Prod = ReturnType<typeof ExportConfigProd>;
+type UnitTest = ReturnType<typeof ExportConfigUnittest>;
 declare module 'egg' {
+  export type LocalConfig = EggAppConfig & Default & Local;
+  export type ProdConfig = EggAppConfig & Default & Prod;
+  export type UnitTestConfig = EggAppConfig & Default & UnitTest;
+  export type IAppConfig = LocalConfig | ProdConfig | UnitTestConfig;
   export interface Application {
     validator: {
       validate: (rule: object | string, obj: object) => object | void;
@@ -21,12 +29,4 @@ declare module 'egg' {
   export interface Service {
     config: IAppConfig;
   }
-  export interface Context {
-    model: IModel;
-  }
-  export interface IModel { }
-  export type LocalConfig = EggAppConfig & Default & Local;
-  export type ProdConfig = EggAppConfig & Default & Prod;
-  export type UnitTestConfig = EggAppConfig & Default & UnitTest;
-  export type IAppConfig = LocalConfig | ProdConfig | UnitTestConfig;
 }

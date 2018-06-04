@@ -4,9 +4,10 @@ import * as uuid from 'uuid';
 import tokenGen from '../../utils/token';
 
 describe('User管理', () => {
-  const app = mm.app();
+  let app;
   const openId = uuid.v1();
   before(async () => {
+    app = mm.app();
     await app.ready();
   });
   after(async () => {
@@ -20,7 +21,7 @@ describe('User管理', () => {
   it('成功创建User', () => {
     return app.httpRequest()
       .post('/api/v1/users')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`).set('Accept', 'application/json')
       .send({
         openId,
       })
@@ -29,7 +30,7 @@ describe('User管理', () => {
   it('重复的openId,无法创建新用户', () => {
     return app.httpRequest()
       .post('/api/v1/users')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`).set('Accept', 'application/json')
       .send({
         openId: '30624700',
       })
@@ -50,7 +51,7 @@ describe('User管理', () => {
   it('数据验证失败', () => {
     return app.httpRequest()
       .post('/api/v1/users')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`).set('Accept', 'application/json')
       .send({
         realName: '张三',
         nickName: '阿三',
@@ -68,7 +69,7 @@ describe('User管理', () => {
   it('非正式成员不能获得完整用户信息', () => {
     return app.httpRequest()
       .get('/api/v1/users/59f1cd15c4ba889296e3b596')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`).set('Accept', 'application/json')
       .expect(200)
       .expect((res) => {
         assert((res.body as Relationship.User).nickName);
@@ -78,7 +79,7 @@ describe('User管理', () => {
   it('非正式成员可以查询到自己的完整信息', () => {
     return app.httpRequest()
       .get('/api/v1/users/59f09727fa451437706901db')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`).set('Accept', 'application/json')
       .expect(200)
       .expect((res) => {
         assert((res.body as Relationship.User).nickName);
@@ -116,7 +117,7 @@ describe('User管理', () => {
   it('更改User', () => {
     return app.httpRequest()
       .put('/api/v1/users/59f09727fa451437706901db')
-      .set('Authorization', `Bearer ${tokenGen(app)}`)
+      .set('Authorization', `Bearer ${tokenGen(app)}`).set('Accept', 'application/json')
       .send({
         nickName: '阿san',
         enrollmentYear: 2012,
