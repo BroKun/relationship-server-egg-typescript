@@ -17,8 +17,8 @@
 * koa-jwt
 * koa-json
 ## API
-[API文档](https://brokun.cn/relationship-docs)
-基于ApiDoc自动生成
+[API文档]()
+ApiDoc生成文档
 ### TODO
 
 - [ ] 对last-modified-since的响应
