@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-- 8.2.1
+- 8.10.0
 before_install:
 - npm i -g typescript
 - openssl aes-256-cbc -K $encrypted_cf2f27b2e746_key -iv $encrypted_cf2f27b2e746_iv
